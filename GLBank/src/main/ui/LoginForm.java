@@ -124,6 +124,9 @@ public class LoginForm extends javax.swing.JFrame {
             if(conn.isEmployeePasswordValid(login,password)){
                 //System.out.println("Password OK");
                 conn.logEmployeeAccess(conn.getEmployeeId(login));
+                
+                MainForm mainForm= new MainForm(conn.getEmployeeId(login));
+                mainForm.setVisible(true);
             }
             else{
                 //System.out.println("wrong username or pass.try again");

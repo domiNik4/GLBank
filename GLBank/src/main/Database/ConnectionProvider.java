@@ -38,7 +38,7 @@ public class ConnectionProvider {
     }
     
     public boolean isEmployeePasswordValid (String username, String password){
-        String query="Select idemp, password from loginemployee where login like ? and password like ?";
+        String query="Select idemp, password from loginemployee where login like binary ? and password like binary ?";
         Connection conn =getConnection();
              
         
@@ -60,9 +60,34 @@ public class ConnectionProvider {
         return false;
     }
     
+    public boolean isEmployeePasswordValid (int idemp, String password){
+        String query="Select idemp, password from loginemployee where idemp like binary ? and password like binary ?";
+        Connection conn =getConnection();
+             
+        
+        if(conn!=null){
+            try{
+            PreparedStatement ps=conn.prepareStatement(query);
+            ps.setInt(1,idemp);
+            ps.setString(2,password);
+            
+            ResultSet rs=ps.executeQuery();
+            boolean ret =rs.next();         
+            conn.close();
+            return ret;
+
+            }catch(SQLException ex){
+                System.out.println("Error:" + ex.toString());
+            }
+        }
+        return false;
+    }
+    
+    
+    
     public int getEmployeeId(String username){
         
-        String query="Select idemp, password from loginemployee where login like ?";
+        String query="Select idemp, password from loginemployee where login like binary ?";
         Connection conn =getConnection();
         int id=-1;
         
@@ -103,7 +128,7 @@ public class ConnectionProvider {
                 ps.setInt(1, id);
                 ps.setString(2,date);
                 ps.executeUpdate();
-               // System.out.println("Query executededed");
+                System.out.println("Query executededed");
                 
             }catch(SQLException ex){
                 System.out.println("Error "+ ex.toString());               
@@ -113,7 +138,7 @@ public class ConnectionProvider {
     }
     
     public Employee getEmployee(int id){
-        String query = "SELECT * from employees where id like ?";
+        String query = "SELECT * from employees where idemp like ?";
         Employee employee = null;
         Connection conn=getConnection();
         
@@ -128,7 +153,7 @@ public class ConnectionProvider {
                 PreparedStatement ps =conn.prepareStatement(query);
                 ps.setInt(1,id);
                 ResultSet rs=ps.executeQuery();
-                conn.close();
+                
                 if(rs.next()){
                     idemp=rs.getInt("idemp");
                     firstname= rs.getString("firstname");
@@ -137,7 +162,7 @@ public class ConnectionProvider {
                     position=rs.getString("position").charAt(0);
                     
                 }
-                
+                conn.close();
             }catch(SQLException ex){
                 System.out.println("Error:" + ex.toString());
             }
@@ -146,6 +171,24 @@ public class ConnectionProvider {
         return employee;        
     }
     
+    public void changePassword(int idemp, String newPass){
+        String query = "Update loginemployee set password=? where idemp=?";
+        Connection conn=getConnection();
+        
+        if(conn!=null){
+            try{
+                PreparedStatement ps= conn.prepareStatement(query);
+                ps.setString(1, newPass);
+                ps.setInt(2,idemp);
+                ps.executeUpdate();
+                conn.close();
+                
+            }catch(SQLException ex){
+                System.out.println("Error:" + ex.toString());
+            }
+        }
+       
+    }
    
     
     
