@@ -10,8 +10,11 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import main.Client;
 import main.Employee;
 
 /**
@@ -188,6 +191,40 @@ public class ConnectionProvider {
             }
         }
        
+    }
+    
+    public ArrayList getListOfAllClients(){
+        
+        String query = "SELECT * from clients INNER JOIN clientdetails on clients.idc=clientdetails.idc where disable = 'F'";
+        Connection conn=getConnection();
+        ArrayList clients = new ArrayList();
+        
+        if (conn!=null){
+            try{
+                Statement ps =conn.createStatement();
+                ResultSet rs= ps.executeQuery(query);
+                while(rs.next()){
+                    int idc = rs.getInt("clients.idc");
+                    String firstname =  rs.getString("firstname");
+                    String lastname = rs.getString("lastname");
+                    Date dob = rs.getDate("dob");
+                    Client client=new Client(idc, lastname, firstname, dob);
+                    clients.add(client);
+                }
+                conn.close();
+            }catch(SQLException ex){
+                System.out.println("Error:" + ex.toString());
+                
+            }
+            
+            
+        }
+        
+        
+        
+        
+        return clients;
+        
     }
    
     

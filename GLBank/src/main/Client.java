@@ -5,6 +5,8 @@
  */
 package main;
 
+import java.util.Date;
+
 /**
  *
  * @author pc
@@ -15,14 +17,16 @@ public class Client {
     private String lastname;
     private String firstname;
     private String email;
-     private String street;
+    private String street;
+    private Date dob;
     private int housenumber;
     private String postcode;
-     private String username;
-      private boolean disable;
-      private boolean blocked;
+    private String city;
+    private String username;
+    private boolean disable;
+    private boolean blocked;
 
-    public Client(int idc, String lastname, String firstname, String email, String street, int housenumber, String postcode, String username, boolean disable, boolean blocked) {
+    public Client(int idc, String lastname, String firstname, String email, String street, int housenumber, String postcode,String city,String username, boolean disable, boolean blocked,Date dob) {
         this.idc = idc;
         this.lastname = lastname;
         this.firstname = firstname;
@@ -30,9 +34,27 @@ public class Client {
         this.street = street;
         this.housenumber = housenumber;
         this.postcode = postcode;
+        this.city=city;
         this.username = username;
         this.disable = disable;
         this.blocked = blocked;
+        this.dob=dob;
+    }
+    
+    public Client(int idc, String lastname, String firstname, Date dob){
+        this.idc=idc;
+        this.lastname=lastname;
+        this.firstname=firstname;
+        this.dob=dob;
+        this.email=null;
+        this.street=null;
+        this.housenumber=0;
+        this.postcode=null;
+        this.city=null;
+        this.username=null;
+        this.disable=false;
+        this.blocked=false;
+               
     }
     //getters
     public int getIdc() {
@@ -74,6 +96,16 @@ public class Client {
     public boolean isBlocked() {
         return blocked;
     }
+    
+    public Date getDob(){
+        return dob;
+    }
+
+    public String getCity() {
+        return city;
+    }
+    
+    
       
     //setters
 
@@ -115,6 +147,14 @@ public class Client {
 
     public void setBlocked(boolean blocked) {
         this.blocked = blocked;
+    }
+    
+    public void setDob(Date dob){
+        this.dob=dob;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
     
       

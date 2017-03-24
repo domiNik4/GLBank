@@ -5,6 +5,9 @@
  */
 package main.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+import main.Client;
 import main.Database.ConnectionProvider;
 import main.Employee;
 
@@ -27,6 +30,7 @@ public class MainForm extends javax.swing.JFrame {
     
     private void initForm(){//several smaller methods
         printEmployeeName();
+        showListOfClients();
         
         
     }
@@ -40,6 +44,18 @@ public class MainForm extends javax.swing.JFrame {
         
         
     }
+    
+    private void showListOfClients(){
+        List<Client> clients = new ConnectionProvider().getListOfAllClients();
+        
+        if(clients!=null && clients.size()>0){
+            for(Client client : clients){
+                String item = client.getFirstname()+" "+client.getLastname()+" "+client.getDob();
+                comboListOfAllClients.addItem(item);
+                
+            }
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -52,7 +68,10 @@ public class MainForm extends javax.swing.JFrame {
 
         lblEmployeeName = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        comboListOfAllClients = new javax.swing.JComboBox<>();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jSeparator1 = new javax.swing.JSeparator();
+        newClientBtn = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         changePasswordMenuAction = new javax.swing.JMenuItem();
@@ -65,7 +84,14 @@ public class MainForm extends javax.swing.JFrame {
 
         jLabel1.setText("Select client:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboListOfAllClients.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Choose..." }));
+
+        newClientBtn.setText("New Client");
+        newClientBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newClientBtnActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("Menu");
 
@@ -97,15 +123,24 @@ public class MainForm extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(866, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lblEmployeeName)
                 .addGap(23, 23, 23))
             .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(newClientBtn)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 730, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(18, 18, 18)
+                                .addComponent(comboListOfAllClients, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(297, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -115,8 +150,14 @@ public class MainForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(711, Short.MAX_VALUE))
+                    .addComponent(comboListOfAllClients, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(newClientBtn))
+                .addGap(82, 82, 82))
         );
 
         pack();
@@ -129,9 +170,15 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_menuExitActionActionPerformed
 
     private void changePasswordMenuActionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changePasswordMenuActionActionPerformed
-        ChangePasswordDialog pwdDialog = new ChangePasswordDialog(this,true,idemp);
+        ChangePasswordDialog pwdDialog = new ChangePasswordDialog(this,false,idemp);
         pwdDialog.setVisible(true);
     }//GEN-LAST:event_changePasswordMenuActionActionPerformed
+
+    private void newClientBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newClientBtnActionPerformed
+        // TODO add your handling code here:create client button
+        NewClientDialog clientDialog = new NewClientDialog(this,false);
+        clientDialog.setVisible(true);
+    }//GEN-LAST:event_newClientBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -140,12 +187,15 @@ public class MainForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem changePasswordMenuAction;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> comboListOfAllClients;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lblEmployeeName;
     private javax.swing.JMenuItem menuExitAction;
+    private javax.swing.JButton newClientBtn;
     // End of variables declaration//GEN-END:variables
 }

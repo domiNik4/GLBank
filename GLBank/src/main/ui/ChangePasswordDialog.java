@@ -21,7 +21,7 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
      */
     public ChangePasswordDialog(java.awt.Frame parent, boolean modal, int idemp) {
         super(parent, modal);
-        errorLbl.setVisible(false);
+        //errorLbl.setVisible(false);
         initComponents();
         this.idemp=idemp;
        
@@ -49,7 +49,6 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         errorLbl = new javax.swing.JLabel();
         errorLbl2 = new javax.swing.JLabel();
         errorLbl4 = new javax.swing.JLabel();
-        errorlbl3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -83,11 +82,9 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
 
         errorLbl.setText("Passwords don't match.");
 
-        errorLbl2.setText("jLabel5");
+        errorLbl2.setText("Old password invalid");
 
-        errorLbl4.setText("jLabel6");
-
-        errorlbl3.setText("jLabel7");
+        errorLbl4.setText("Old password incorect");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -114,15 +111,12 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(errorLbl2)
                                     .addComponent(errorLbl4)
-                                    .addComponent(errorlbl3)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                                .addComponent(errorLbl))))
+                                    .addComponent(errorLbl)))
+                            .addComponent(jLabel2)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(206, 206, 206)
                         .addComponent(jLabel3)))
-                .addGap(38, 38, 38))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -142,18 +136,16 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
                     .addComponent(newPasswordTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(errorLbl2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(errorLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(2, 2, 2)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(newPasswordTxt2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(errorlbl3))
+                    .addComponent(errorLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(submitNewPasswordBtn)
                     .addComponent(cancelPasswordBtn))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         pack();
@@ -226,7 +218,6 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
     private javax.swing.JLabel errorLbl;
     private javax.swing.JLabel errorLbl2;
     private javax.swing.JLabel errorLbl4;
-    private javax.swing.JLabel errorlbl3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
