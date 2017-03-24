@@ -48,8 +48,8 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
         newPasswordTxt2 = new javax.swing.JPasswordField();
         errorLbl = new javax.swing.JLabel();
         errorLbl2 = new javax.swing.JLabel();
-        lblInvalidOldPass = new javax.swing.JLabel();
-        lblNewPassInvalid2 = new javax.swing.JLabel();
+        errorLbl4 = new javax.swing.JLabel();
+        errorlbl3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -85,52 +85,56 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
 
         errorLbl2.setText("jLabel5");
 
-        lblInvalidOldPass.setText("jLabel6");
+        errorLbl4.setText("jLabel6");
 
-        lblNewPassInvalid2.setText("jLabel7");
+        errorlbl3.setText("jLabel7");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel3)
-                .addGap(117, 117, 117))
             .addGroup(layout.createSequentialGroup()
-                .addGap(101, 101, 101)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(submitNewPasswordBtn)
-                        .addGap(50, 50, 50)
-                        .addComponent(cancelPasswordBtn))
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel2)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel1)
-                        .addComponent(errorLbl, javax.swing.GroupLayout.Alignment.TRAILING))
-                    .addComponent(oldPasswordTxt)
-                    .addComponent(newPasswordTxt)
-                    .addComponent(newPasswordTxt2))
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(errorLbl2)
-                    .addComponent(lblInvalidOldPass)
-                    .addComponent(lblNewPassInvalid2))
-                .addContainerGap(273, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(101, 101, 101)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addComponent(submitNewPasswordBtn)
+                                        .addGap(50, 50, 50)
+                                        .addComponent(cancelPasswordBtn))
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel1)
+                                    .addComponent(oldPasswordTxt)
+                                    .addComponent(newPasswordTxt)
+                                    .addComponent(newPasswordTxt2))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(errorLbl2)
+                                    .addComponent(errorLbl4)
+                                    .addComponent(errorlbl3)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                                .addComponent(errorLbl))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(206, 206, 206)
+                        .addComponent(jLabel3)))
+                .addGap(38, 38, 38))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(19, 19, 19)
+                .addGap(16, 16, 16)
                 .addComponent(jLabel3)
-                .addGap(15, 15, 15)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addGap(8, 8, 8)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(oldPasswordTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblInvalidOldPass))
+                    .addComponent(errorLbl4))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
                 .addGap(8, 8, 8)
@@ -138,18 +142,18 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
                     .addComponent(newPasswordTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(errorLbl2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addGap(8, 8, 8)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(errorLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(2, 2, 2)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(newPasswordTxt2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNewPassInvalid2))
+                    .addComponent(errorlbl3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(submitNewPasswordBtn)
                     .addComponent(cancelPasswordBtn))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(errorLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         pack();
@@ -221,12 +225,12 @@ public class ChangePasswordDialog extends javax.swing.JDialog {
     private javax.swing.JButton cancelPasswordBtn;
     private javax.swing.JLabel errorLbl;
     private javax.swing.JLabel errorLbl2;
+    private javax.swing.JLabel errorLbl4;
+    private javax.swing.JLabel errorlbl3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel lblInvalidOldPass;
-    private javax.swing.JLabel lblNewPassInvalid2;
     private javax.swing.JPasswordField newPasswordTxt;
     private javax.swing.JPasswordField newPasswordTxt2;
     private javax.swing.JPasswordField oldPasswordTxt;
