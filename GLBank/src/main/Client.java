@@ -23,10 +23,11 @@ public class Client {
     private String postcode;
     private String city;
     private String username;
+    private String password;
     private boolean disable;
     private boolean blocked;
 
-    public Client(int idc, String lastname, String firstname, String email, String street, int housenumber, String postcode,String city,String username, boolean disable, boolean blocked,Date dob) {
+    public Client(int idc, String lastname, String firstname, String email, String street, int housenumber, String postcode,String city,String username,String password, boolean disable, boolean blocked,Date dob) {
         this.idc = idc;
         this.lastname = lastname;
         this.firstname = firstname;
@@ -36,6 +37,7 @@ public class Client {
         this.postcode = postcode;
         this.city=city;
         this.username = username;
+        this.password=password;
         this.disable = disable;
         this.blocked = blocked;
         this.dob=dob;
@@ -52,6 +54,7 @@ public class Client {
         this.postcode=null;
         this.city=null;
         this.username=null;
+        this.password=null;
         this.disable=false;
         this.blocked=false;
                
@@ -103,6 +106,10 @@ public class Client {
 
     public String getCity() {
         return city;
+    }
+    
+    public String getPassword(){
+        return password;
     }
     
     
