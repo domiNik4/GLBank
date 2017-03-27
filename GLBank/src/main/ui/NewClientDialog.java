@@ -5,6 +5,14 @@
  */
 package main.ui;
 
+import java.sql.Connection;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import main.Database.ConnectionProvider;
+
 /**
  *
  * @author pc
@@ -25,6 +33,7 @@ public class NewClientDialog extends javax.swing.JDialog {
         errorStreetnumberLbl.setVisible(false);
         errorPostcodeLbl.setVisible(false);
         errorCityLbl.setVisible(false);
+        errorUsernameLbl.setVisible(false);
     }
     
     
@@ -41,7 +50,6 @@ public class NewClientDialog extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         txtFirstname = new javax.swing.JTextField();
         txtLastname = new javax.swing.JTextField();
-        txtDob = new javax.swing.JTextField();
         txtEmail = new javax.swing.JTextField();
         txtStreet = new javax.swing.JTextField();
         txtStreetnumber = new javax.swing.JTextField();
@@ -61,7 +69,8 @@ public class NewClientDialog extends javax.swing.JDialog {
         errorCityLbl = new javax.swing.JLabel();
         txtUsername = new javax.swing.JTextField();
         txtPassword = new javax.swing.JTextField();
-        btnGenerate = new javax.swing.JButton();
+        errorUsernameLbl = new javax.swing.JLabel();
+        txtDob = new org.jdesktop.swingx.JXDatePicker();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -70,13 +79,6 @@ public class NewClientDialog extends javax.swing.JDialog {
         txtFirstname.setText("First name");
 
         txtLastname.setText("Last name");
-
-        txtDob.setText("Date of birth");
-        txtDob.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtDobActionPerformed(evt);
-            }
-        });
 
         txtEmail.setText("email");
 
@@ -93,8 +95,18 @@ public class NewClientDialog extends javax.swing.JDialog {
         jLabel3.setText("Address");
 
         btnCreate.setText("Create");
+        btnCreate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCreateActionPerformed(evt);
+            }
+        });
 
         btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         errorFirstnameLbl.setText("Invalid username");
 
@@ -116,7 +128,7 @@ public class NewClientDialog extends javax.swing.JDialog {
 
         txtPassword.setText("Password");
 
-        btnGenerate.setText("Generate");
+        errorUsernameLbl.setText("InvalidUsername");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -133,8 +145,7 @@ public class NewClientDialog extends javax.swing.JDialog {
                             .addComponent(errorFirstnameLbl)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(txtUsername, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtDob, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+                                    .addComponent(txtUsername, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
                                     .addComponent(txtFirstname, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,13 +167,16 @@ public class NewClientDialog extends javax.swing.JDialog {
                                                 .addComponent(errorCityLbl)
                                                 .addComponent(txtPassword)))
                                         .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(btnCancel)
-                                            .addComponent(btnGenerate)))))))
+                                        .addComponent(btnCancel))))
+                            .addComponent(errorUsernameLbl)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(246, 246, 246)
-                        .addComponent(jLabel1)))
-                .addContainerGap(166, Short.MAX_VALUE))
+                        .addComponent(jLabel1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(txtDob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(443, 443, 443)))
+                .addContainerGap(179, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -191,8 +205,8 @@ public class NewClientDialog extends javax.swing.JDialog {
                     .addComponent(errorStreetnumberLbl))
                 .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtDob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPostcode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPostcode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(errorDobLbl)
@@ -205,12 +219,13 @@ public class NewClientDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(errorMailLbl)
                     .addComponent(errorCityLbl))
-                .addGap(35, 35, 35)
+                .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnGenerate))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 72, Short.MAX_VALUE)
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(errorUsernameLbl)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCreate)
                     .addComponent(btnCancel))
@@ -220,10 +235,198 @@ public class NewClientDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtDobActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDobActionPerformed
+    private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtDobActionPerformed
+        String firstname=txtFirstname.getText();
+        String lastname=txtLastname.getText();
+        Date dob = txtDob.getDate();
+        String email = txtEmail.getText();
+        String street = txtStreet.getText();
+        String streetNo = txtStreetnumber.getText();
+        String postCode = txtPostcode.getText();
+        String city =txtCity.getText();
+        String username=txtUsername.getText();
+        String password=txtPassword.getText();  
+        verifyFirstname();
+        verifyLastname();
+        verifyDob();
+        verifyEmail();
+        verifyStreet();
+        verifyStreetNumber();
+        verifyPostcode();
+        verifyCity();
+        verifyUsername();
+        //to do: fix verification!
+        if(verifyInputFields()){
+             ConnectionProvider conn=new ConnectionProvider();
+             conn.addNewClient(firstname, lastname, dob, email);
+        }
+        
+    }//GEN-LAST:event_btnCreateActionPerformed
 
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
+    
+    private boolean verifyInputFields(){
+          boolean areValid =verifyFirstname()&&verifyLastname()&&verifyDob()&&verifyEmail()&&verifyStreet()&&verifyStreetNumber()&&verifyPostcode()&&verifyCity()&&verifyUsername();
+           return areValid;
+    }
+    
+    private boolean verifyFirstname(){
+        String firstname = txtFirstname.getText();
+        boolean valid=false;
+        if(firstname!=null&&firstname.length()<=20){
+            for(int i=0;i<firstname.length();i++){
+                if(Character.isLetter(firstname.charAt(i)))
+                        valid=true;
+                    
+            }
+        }
+        if(valid==false)
+            errorFirstnameLbl.setVisible(true);
+        
+        //System.out.println(valid);
+        return valid;
+    }
+    
+    private boolean verifyLastname(){
+        String lastname = txtLastname.getText();
+        boolean valid=true;
+        if(lastname!=null&&lastname.length()<=20){
+            for(int i=0;i<lastname.length();i++){
+                if(!Character.isLetter(lastname.charAt(i)))
+                        valid=false;
+                    
+            }
+        }
+        if(valid==false){
+            errorLastnameLbl.setVisible(true);
+        }
+        //System.out.println(valid);
+        return valid;
+        
+    }
+    
+    private boolean verifyDob(){
+        boolean valid=false;
+        SimpleDateFormat df = new SimpleDateFormat("dd/mm/yyyy");
+        SimpleDateFormat yr = new SimpleDateFormat("yyyy");
+ 
+        
+        Date dob= txtDob.getDate();
+        String dateOfBirth=df.format(dob);
+        int year=Integer.parseInt(yr.format(dob));
+     
+        if(dateOfBirth!=null&&year<2001)
+            valid=true;
+        if (valid==false)
+                errorDobLbl.setVisible(true);
+        //System.out.println(valid);
+        return false;
+    }
+    
+    private boolean verifyEmail(){
+        String email=txtEmail.getText();
+        String pattern ="^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\\\.[A-Z]{2,6}[A-Za-z0-9-]+(\\\\.[A-Za-z0-9]+)*(\\\\.[A-Za-z]{2,})$";//idiot pattern,fix it!
+        Pattern p =Pattern.compile(pattern,Pattern.CASE_INSENSITIVE);
+        Matcher m =p.matcher(email);
+        boolean valid=false;
+        
+        if(email!=null/*&&m.find() altered for testing purposes*/)
+            valid=true;
+        
+        if (valid==false)
+            errorMailLbl.setVisible(true);
+        //System.out.println(valid);
+        return valid;
+    }
+    
+    private boolean verifyStreet(){
+        String street = txtStreet.getText();
+        boolean valid=false;
+        if(street!=null&&street.length()<=30){
+            for(int i=0;i<street.length();i++){
+                if(Character.isLetter(street.charAt(i)))
+                        valid=true;
+                    
+            }
+        }
+        if(valid==false)
+            errorStreetLbl.setVisible(true);
+        //System.out.println(valid);
+        return valid;
+    }
+    
+    private boolean verifyStreetNumber(){
+        String streetnumber =txtStreetnumber.getText();
+        boolean valid =false;
+        if(streetnumber!=null){
+            for(int i=0;i<streetnumber.length();i++){
+                if(Character.isDigit(streetnumber.charAt(i)))
+                    valid=true;
+                
+            }
+        }
+        if(valid==false){
+            errorStreetnumberLbl.setVisible(true);
+        }
+        //System.out.println(valid);
+        return valid;
+    }
+    
+    private boolean verifyPostcode(){
+        String postCode = txtPostcode.getText();
+        boolean valid=false;
+        if(postCode!=null&&postCode.length()==5){
+            for(int i=0;i<postCode.length();i++){
+                if(Character.isDigit(postCode.charAt(i)))
+                        valid=true;
+                    
+            }
+        }
+        if(valid==false){
+            errorPostcodeLbl.setVisible(true);
+        }
+        //System.out.println(valid);
+        return valid;
+    }
+    
+    private boolean verifyCity(){
+        String city = txtCity.getText();
+        boolean valid=false;
+        if(city!=null&&city.length()<=20){
+            for(int i=0;i<city.length();i++){
+                if(Character.isLetter(city.charAt(i)))
+                        valid=true;
+                    
+            }
+        }
+         if(valid==false){
+            errorCityLbl.setVisible(true);
+        }
+        //System.out.println(valid);
+        return valid;
+    }
+    
+    private boolean verifyUsername(){
+        String username = txtUsername.getText();
+        boolean valid=true;
+        if(username!=null&&username.length()<=20){
+            for(int i=0;i<username.length();i++){
+                if(!Character.isLetter(username.charAt(i)))
+                        valid=false;
+                    
+            }
+        }
+        if(valid==false){
+            errorUsernameLbl.setVisible(true);
+        }
+        //System.out.println(valid);
+        return valid;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -269,7 +472,6 @@ public class NewClientDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnCreate;
-    private javax.swing.JButton btnGenerate;
     private javax.swing.JLabel errorCityLbl;
     private javax.swing.JLabel errorDobLbl;
     private javax.swing.JLabel errorFirstnameLbl;
@@ -278,11 +480,12 @@ public class NewClientDialog extends javax.swing.JDialog {
     private javax.swing.JLabel errorPostcodeLbl;
     private javax.swing.JLabel errorStreetLbl;
     private javax.swing.JLabel errorStreetnumberLbl;
+    private javax.swing.JLabel errorUsernameLbl;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField txtCity;
-    private javax.swing.JTextField txtDob;
+    private org.jdesktop.swingx.JXDatePicker txtDob;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtFirstname;
     private javax.swing.JTextField txtLastname;

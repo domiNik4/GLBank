@@ -216,16 +216,74 @@ public class ConnectionProvider {
                 System.out.println("Error:" + ex.toString());
                 
             }
-            
-            
+
         }
-        
-        
-        
         
         return clients;
         
     }
+    
+   public void addNewClient(String firstname, String lastname, Date dob, String email){
+       String query="INSERT INTO clients(firstname,lastname,dob,email)VALUES(?,?,?,?)";
+       Connection conn=getConnection();
+       SimpleDateFormat df = new SimpleDateFormat("dd");
+       SimpleDateFormat mf = new SimpleDateFormat("MM");
+       SimpleDateFormat yf = new SimpleDateFormat("yyyy");
+       String day=df.format(dob);
+       String month=mf.format(dob);
+       String year=yf.format(dob);
+       String date= year+"-"+month+"-"+day;
+       
+       if(conn!=null){
+           try{
+               PreparedStatement ps = conn.prepareStatement(query);
+               ps.setString(1,firstname);
+               ps.setString(2,lastname);
+               ps.setString(3,date);//check this
+               ps.setString(4,email);
+               ps.executeUpdate();
+               conn.close();
+           }catch(SQLException ex){
+               System.out.println("Error: "+ex.toString());
+           }
+       }
+   }
+   
+   public void addClientDetails(int idc,String street,String housenumber,String city,String postcode){
+       String query="INSERT INTO clientdetails(idc,street,housenumber,city,postcode)VALUES(?,?,?,?,?)";
+       Connection conn=getConnection();
+       if(conn!=null){
+           try{
+               PreparedStatement ps=conn.prepareStatement(query);
+               ps.setInt(1,idc);
+               ps.setString(2,street);
+               ps.setInt(3,Integer.valueOf(housenumber));
+               ps.setString(4,city);
+               ps.setString(5,postcode);
+               ps.executeUpdate();
+               conn.close();
+           }catch(SQLException ex){
+               System.out.println("Error: "+ex.toString());
+           }
+       }
+       
+   }
+   
+   public void addClientLogin(){
+       String query="INSERT INTO loginclient(idc,login,password) VALUES(?,?,?)";
+       Connection conn=getConnection();
+       if(conn!=null){
+           try{
+               PreparedStatement ps=conn.prepareStatement(query);
+           }catch(SQLException ex){
+               System.out.println("Error: "+ex.toString());
+           }
+           
+           
+       }
+       
+       
+   }
    
     
     
