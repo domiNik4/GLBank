@@ -19,7 +19,7 @@ import main.Employee;
 public class MainForm extends javax.swing.JFrame {
     
     int idemp=0;
-    List<Client>clientsList=null;
+    private List<Client>clientsList;
     private ConnectionProvider conn;
 
     
@@ -49,10 +49,10 @@ public class MainForm extends javax.swing.JFrame {
     }
     
     private void showListOfClients(){
-        List<Client> clients = new ConnectionProvider().getListOfAllClients();
+        clientsList = new ConnectionProvider().getListOfAllClients();
         
-        if(clients!=null && clients.size()>0){
-            for(Client client : clients){
+        if(clientsList!=null && clientsList.size()>0){
+            for(Client client : clientsList){
                 String item = client.getFirstname()+" "+client.getLastname()+" "+client.getDob();
                 comboListOfAllClients.addItem(item);
                 
@@ -204,12 +204,12 @@ public class MainForm extends javax.swing.JFrame {
     private void comboListOfAllClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboListOfAllClientsActionPerformed
         // TODO add your handling code here:
         int index = comboListOfAllClients.getSelectedIndex();
-       System.out.println(index);
+        jTabbedPane1.removeAll();
         if(index>0){
-            //Client client = clientsList.get(index);
-            
-            //JPanelInfo jPanelInfo = new JPanelInfo(client);
-            //jPanelInfo.add("Information",jPanelInfo);//wtf
+            Client chosenClient = clientsList.get(index);
+            Client client = new ConnectionProvider().getClient(chosenClient.getIdc());
+            JPanelInfo jpanelInfo = new JPanelInfo(client);
+            jTabbedPane1.add("Information", jpanelInfo);
         }
     }//GEN-LAST:event_comboListOfAllClientsActionPerformed
 

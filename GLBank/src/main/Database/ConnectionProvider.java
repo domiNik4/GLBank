@@ -223,6 +223,27 @@ public class ConnectionProvider {
         
     }
     
+    
+private boolean isPasswordUnique(){
+    String query ="SELECT login FROM loginclient WHERE login LIKE ?";
+    Connection conn = getConnection();
+    try{
+        PreparedStatement ps=conn.prepareStatement(query);
+        ps.setString(1,"username");
+        ResultSet rs=ps.executeQuery();
+        boolean exists =rs.next();
+        conn.close();
+        if(exists)
+            return true;
+        else
+            return false;
+    }catch(SQLException ex){
+        System.out.println("Error:" + ex.toString());
+    }
+    
+    return false;
+}
+    
    private int addNewClient(Client client,Connection conn){
        String query="INSERT INTO clients(firstname,lastname,dob,email)VALUES(?,?,?,?)";
        String queryIdc="SELECT max(idc) AS idc FROM clients WHERE firstname LIKE ? AND lastname LIKE ?";
@@ -304,7 +325,7 @@ public class ConnectionProvider {
    
    public Client getClient(int idc){
        String query="SELECT * FROM clients INNER JOIN clientdetails on clients.idc = clientdetails.idc "+
-               "INNER JOIN loginclients on clients.idc = loginclients.idc where idc like ?";
+               "INNER JOIN loginclient on clients.idc = loginclient.idc where clients.idc like ?";
        Connection conn = getConnection();
        
        if(conn!=null){
@@ -313,12 +334,24 @@ public class ConnectionProvider {
                ps.setInt(1, idc);
                ResultSet rs=ps.executeQuery();
                if(rs.next()){
-                   //Client client = new Client();
-                   //finish this
+                   Client client=new Client(idc, 
+                           rs.getString("lastname"), 
+                           rs.getString("firstname"),
+                           rs.getString("email"),
+                           rs.getString("street"),
+                           rs.getInt("housenumber"),
+                           rs.getString("postcode"),
+                           rs.getString("city"),
+                           rs.getString("login"),
+                           rs.getString("password"),
+                           false, 
+                           false,
+                           rs.getDate("dob"));
+                   return client;
                }
                
            }catch(SQLException ex){
-               
+                System.out.println("Error: "+ex.toString());
            }
            
        }
