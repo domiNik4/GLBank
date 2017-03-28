@@ -269,6 +269,7 @@ public class NewClientDialog extends javax.swing.JDialog {
         if(verifyInputFields()){
              Client newClient = new Client(0, lastname,firstname,email, street, streetNo, postCode,city, username,password,false, false, dob);
              new ConnectionProvider().addClientRecord(newClient);
+             this.dispose();
         }
         
     }//GEN-LAST:event_btnCreateActionPerformed

@@ -236,7 +236,6 @@ public class ConnectionProvider {
        
        if(conn!=null){
            try{
-               
                PreparedStatement ps = conn.prepareStatement(query);
                ps.setString(1,client.getFirstname());
                ps.setString(2,client.getLastname());
@@ -301,6 +300,29 @@ public class ConnectionProvider {
            addClientLogin(client,conn);
        }
        
+   }
+   
+   public Client getClient(int idc){
+       String query="SELECT * FROM clients INNER JOIN clientdetails on clients.idc = clientdetails.idc "+
+               "INNER JOIN loginclients on clients.idc = loginclients.idc where idc like ?";
+       Connection conn = getConnection();
+       
+       if(conn!=null){
+           try{
+               PreparedStatement ps=conn.prepareStatement(query);
+               ps.setInt(1, idc);
+               ResultSet rs=ps.executeQuery();
+               if(rs.next()){
+                   //Client client = new Client();
+                   //finish this
+               }
+               
+           }catch(SQLException ex){
+               
+           }
+           
+       }
+       return null;
    }
     
 }
