@@ -10,35 +10,43 @@ import java.math.BigInteger;
 /**
  *
  * @author D33
- * method relies on correct length account number and prefix in one for now -to be updated.
+ * this generator works for slovak IBANS only. s and k represent country code values.
  */
 public class IBANGenerator {
-    private String bankCode;
+      
+   private String bankCode;
+    private String prefix;
     private String accountNumber;
     private String countryCode="SK";
     private int s=28;
     private int k=20;
     
     
-    public IBANGenerator (String bankCode, String accountNumber){
+    public IBANGenerator (String bankCode, String prefix, String accountNumber){
         
         this.bankCode=bankCode;
+        this.prefix=prefix;
         this.accountNumber=accountNumber;        
-        
     }
     
-    public String generateIBAN(){
+     public String generateIBAN(){
         String iban = null;
         BigInteger checkDigit;
-        if(accountNumber!=null){
+        
+        prefix=adjustPrefix();
+        accountNumber=adjustAccNumber();
+        if(isPrefixValid()&&isAccNumberValid()){
            try{
-               String temp=bankCode+accountNumber+s+k+"00";
+               String temp=bankCode+prefix+accountNumber+s+k+"00";
                BigInteger tempValue = new BigInteger(temp);
                BigInteger modulus= tempValue.mod(new BigInteger("97"));
                
                checkDigit=new BigInteger("98").subtract(modulus);
-               iban = countryCode+checkDigit+bankCode+accountNumber;  
-               
+               if(checkDigit.compareTo(new BigInteger("9"))==1)
+                    iban = countryCode+checkDigit+bankCode+prefix+accountNumber;
+               else{
+                    iban = countryCode+"0"+checkDigit+bankCode+prefix+accountNumber;
+                }
                
            }catch(Exception e){
                System.out.println("Error: "+e.toString());
@@ -47,4 +55,51 @@ public class IBANGenerator {
         return iban;
     }
     
+    private boolean isPrefixValid(){
+        boolean containsNumbers=true;
+        for(int i=0;i<prefix.length();i++){
+            if(!Character.isDigit(prefix.charAt(i)))
+                containsNumbers=false;
+        }
+        if(prefix!=null&&containsNumbers){
+            return true;
+        }
+        return false;
+    }
+    
+    private boolean isAccNumberValid(){
+        boolean containsNumbers=true;
+        for(int i=0;i<accountNumber.length();i++){
+            if(!Character.isDigit(accountNumber.charAt(i)))
+                containsNumbers=false;
+        }
+        if(accountNumber!=null&&containsNumbers){
+            return true;
+        }
+        return false;
+    }
+    
+    private String adjustPrefix(){
+        StringBuilder prefixStr = new StringBuilder(prefix);
+        
+        if(isPrefixValid()){
+            int numberOfZeros=6-prefix.length();
+            for(int i=0;i<numberOfZeros;i++){
+                prefixStr.insert(0,'0');
+            }
+        }
+        return prefixStr.toString();
+    }
+    
+    private String adjustAccNumber(){
+        StringBuilder accNumberStr = new StringBuilder(accountNumber);
+        
+        if(isPrefixValid()){
+            int numberOfZeros=6-accountNumber.length();
+            for(int i=0;i<numberOfZeros;i++){
+                accNumberStr.insert(0,'0');
+            }
+        }
+        return accNumberStr.toString();
+    }
 }
