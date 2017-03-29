@@ -209,7 +209,9 @@ public class MainForm extends javax.swing.JFrame {
             Client chosenClient = clientsList.get(index);
             Client client = new ConnectionProvider().getClient(chosenClient.getIdc());
             JPanelInfo jpanelInfo = new JPanelInfo(client);
+            jpanelInfo.initLabels();
             jTabbedPane1.add("Information", jpanelInfo);
+            
         }
     }//GEN-LAST:event_comboListOfAllClientsActionPerformed
 

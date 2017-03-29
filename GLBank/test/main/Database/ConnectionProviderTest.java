@@ -5,6 +5,8 @@
  */
 package main.Database;
 
+import java.util.ArrayList;
+import main.Client;
 import main.Employee;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -108,5 +110,124 @@ public class ConnectionProviderTest {
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
+
+    /**
+     * Test of isEmployeePasswordValid method, of class ConnectionProvider.
+     */
+    @Test
+    public void testIsEmployeePasswordValid_String_String() {
+        System.out.println("isEmployeePasswordValid");
+        String username = "";
+        String password = "";
+        ConnectionProvider instance = new ConnectionProvider();
+        boolean expResult = false;
+        boolean result = instance.isEmployeePasswordValid(username, password);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of isEmployeePasswordValid method, of class ConnectionProvider.
+     */
+    @Test
+    public void testIsEmployeePasswordValid_int_String() {
+        System.out.println("isEmployeePasswordValid");
+        int idemp = 0;
+        String password = "";
+        ConnectionProvider instance = new ConnectionProvider();
+        boolean expResult = false;
+        boolean result = instance.isEmployeePasswordValid(idemp, password);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getDateTime method, of class ConnectionProvider.
+     */
+    //@Test
+    public void testGetDateTime() {
+        System.out.println("getDateTime");
+        ConnectionProvider instance = new ConnectionProvider();
+        String expResult = "";
+        String result = instance.getDateTime();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of logEmployeeAccess method, of class ConnectionProvider.
+     */
+    @Test
+    public void testLogEmployeeAccess() {
+        System.out.println("logEmployeeAccess");
+        int id = 0;
+        ConnectionProvider instance = new ConnectionProvider();
+        instance.logEmployeeAccess(id);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of changePassword method, of class ConnectionProvider.
+     */
+    @Test
+    public void testChangePassword() {
+        System.out.println("changePassword");
+        int idemp = 0;
+        String newPass = "";
+        ConnectionProvider instance = new ConnectionProvider();
+        instance.changePassword(idemp, newPass);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getListOfAllClients method, of class ConnectionProvider.
+     */
+    @Test
+    public void testGetListOfAllClients() {
+        System.out.println("getListOfAllClients");
+        ConnectionProvider instance = new ConnectionProvider();
+        ArrayList expResult = null;
+        ArrayList result = instance.getListOfAllClients();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of addClientRecord method, of class ConnectionProvider.
+     */
+    @Test
+    public void testAddClientRecord() {
+        System.out.println("addClientRecord");
+        Client client = null;
+        ConnectionProvider instance = new ConnectionProvider();
+        instance.addClientRecord(client);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getClient method, of class ConnectionProvider.
+     */
+    @Test
+    public void testGetClient() {
+        System.out.println("getClient");
+        int idc = 0;
+        ConnectionProvider instance = new ConnectionProvider();
+        Client expResult = null;
+        Client result = instance.getClient(idc);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+    
      
+    
+    
+    
 }

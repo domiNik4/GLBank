@@ -163,6 +163,10 @@ public class Client {
     public void setCity(String city) {
         this.city = city;
     }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
     
       
     

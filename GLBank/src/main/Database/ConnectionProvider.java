@@ -344,8 +344,8 @@ private boolean isPasswordUnique(){
                            rs.getString("city"),
                            rs.getString("login"),
                            rs.getString("password"),
-                           false, 
-                           false,
+                           rs.getString("disable").charAt(0)=='T', 
+                           rs.getString("blocked").charAt(0)=='T',
                            rs.getDate("dob"));
                    return client;
                }
