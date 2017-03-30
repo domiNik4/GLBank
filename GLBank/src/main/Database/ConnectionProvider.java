@@ -14,6 +14,8 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import main.Accounts;
 import main.Client;
 import main.Employee;
 
@@ -356,6 +358,27 @@ private boolean isPasswordUnique(){
            
        }
        return null;
+   }
+   
+   public List<Accounts> getAccounts(int idacc){
+       
+       Connection conn=getConnection();
+       String query="SELECT * FROM accounts where idc like ?";
+       if(conn!=null){
+           try{
+               PreparedStatement ps=conn.prepareStatement(query);
+               List<Accounts> list=new ArrayList<>();
+               ResultSet rs= ps.executeQuery();
+               while(rs.next()){
+                   Accounts account=new Accounts(rs.getInt("idc"),rs.getLong(idacc),rs.getFloat("balance"));
+               }
+               return list;
+               
+           }catch(SQLException ex){
+               System.out.println("Error: "+ex.toString());
+           }
+       }
+      return null;
    }
     
 }

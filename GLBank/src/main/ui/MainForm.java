@@ -5,12 +5,17 @@
  */
 package main.ui;
 
+import main.ui.panels.JPanelAccounts;
+import main.ui.panels.JPanelInfo;
+import main.ui.panels.JPanelAccounts;
 import java.util.ArrayList;
 import static java.util.Collections.list;
 import java.util.List;
 import main.Client;
 import main.Database.ConnectionProvider;
 import main.Employee;
+import main.ui.panels.JPanelCards;
+import main.ui.panels.JPanelTransactions;
 
 /**
  *
@@ -61,7 +66,7 @@ public class MainForm extends javax.swing.JFrame {
     }
     
     private void initTabs(){
-        
+                
     }
 
     /**
@@ -203,15 +208,23 @@ public class MainForm extends javax.swing.JFrame {
 
     private void comboListOfAllClientsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboListOfAllClientsActionPerformed
         // TODO add your handling code here:
-        int index = comboListOfAllClients.getSelectedIndex();
+        int index = comboListOfAllClients.getSelectedIndex()-1;
         jTabbedPane1.removeAll();
-        if(index>0){
+        if(index >= 0){
             Client chosenClient = clientsList.get(index);
             Client client = new ConnectionProvider().getClient(chosenClient.getIdc());
             JPanelInfo jpanelInfo = new JPanelInfo(client);
             jpanelInfo.initLabels();
             jTabbedPane1.add("Information", jpanelInfo);
             
+            JPanelAccounts jpanelAccounts=new JPanelAccounts(chosenClient.getIdc());
+            jTabbedPane1.add("Accounts",jpanelAccounts);
+            
+            JPanelTransactions jpanelTransactions=new JPanelTransactions();
+            jTabbedPane1.add("Transactions",jpanelTransactions);
+            
+            JPanelCards jpanelCards = new JPanelCards();
+            jTabbedPane1.add("Cards",jpanelCards);
         }
     }//GEN-LAST:event_comboListOfAllClientsActionPerformed
 
