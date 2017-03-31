@@ -100,6 +100,17 @@ public class MainForm extends javax.swing.JFrame {
         jLabel1.setText("Select client:");
 
         comboListOfAllClients.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Choose..." }));
+        comboListOfAllClients.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                comboListOfAllClientsMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                comboListOfAllClientsMouseEntered(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                comboListOfAllClientsMousePressed(evt);
+            }
+        });
         comboListOfAllClients.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 comboListOfAllClientsActionPerformed(evt);
@@ -227,6 +238,23 @@ public class MainForm extends javax.swing.JFrame {
             jTabbedPane1.add("Cards",jpanelCards);
         }
     }//GEN-LAST:event_comboListOfAllClientsActionPerformed
+//refresh clients
+    private void comboListOfAllClientsMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboListOfAllClientsMousePressed
+     
+    }//GEN-LAST:event_comboListOfAllClientsMousePressed
+
+    private void comboListOfAllClientsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboListOfAllClientsMouseClicked
+
+    }//GEN-LAST:event_comboListOfAllClientsMouseClicked
+
+    private void comboListOfAllClientsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboListOfAllClientsMouseEntered
+        // TODO add your handling code here:
+       
+        comboListOfAllClients.removeAllItems();
+        comboListOfAllClients.addItem("Choose");
+        clientsList=conn.getListOfAllClients();
+        showListOfClients();
+    }//GEN-LAST:event_comboListOfAllClientsMouseEntered
 
     /**
      * @param args the command line arguments

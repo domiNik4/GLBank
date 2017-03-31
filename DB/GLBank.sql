@@ -80,3 +80,18 @@ INSERT INTO LoginClient(idc,login,password) values (2,"SecondClient", "secret");
 INSERT INTO LoginClient(idc,login,password) values (3,"ThirdClient", "secret");
 INSERT INTO LoginClient(idc,login,password) values (4,"FourthClient", "secret");
 INSERT INTO LoginClient(idc,login,password) values (5,"FifthClient", "secret");
+
+CREATE TABLE Accounts (idacc BIGINT UNIQUE, 
+					   idc integer not null,
+					   balance FLOAT(10,2) not null,
+					   primary key (idacc),
+					   foreign key Accounts(idc) references clients(idc)
+					   on delete cascade
+					   on update restrict);
+
+INSERT INTO Accounts(idacc,idc,balance) values (1358024679,1,20000.43);
+INSERT INTO Accounts(idacc,idc,balance) values (5893548221,2,12430.23);
+INSERT INTO Accounts(idacc,idc,balance) values (1410821632,3,1600.90);
+INSERT INTO Accounts(idacc,idc,balance) values (6401120033,4,148823.14);
+INSERT INTO Accounts(idacc,idc,balance) values (4761775381,5,6.00);
+INSERT INTO Accounts(idacc,idc,balance) values (7326001254,5,120.00);

@@ -360,17 +360,20 @@ private boolean isPasswordUnique(){
        return null;
    }
    
-   public List<Accounts> getAccounts(int idacc){
+   public List<Accounts> getAccounts(int idc){
        
        Connection conn=getConnection();
        String query="SELECT * FROM accounts where idc like ?";
+     
        if(conn!=null){
            try{
                PreparedStatement ps=conn.prepareStatement(query);
                List<Accounts> list=new ArrayList<>();
+               ps.setInt(1,idc);
                ResultSet rs= ps.executeQuery();
                while(rs.next()){
-                   Accounts account=new Accounts(rs.getInt("idc"),rs.getLong(idacc),rs.getFloat("balance"));
+                   Accounts account=new Accounts(rs.getInt("idc"),rs.getLong("idacc"),rs.getFloat("balance"));
+                   list.add(account);
                }
                return list;
                
@@ -380,5 +383,61 @@ private boolean isPasswordUnique(){
        }
       return null;
    }
+   
+   public void addMoneyToAccount(long idacc,float balance,float amountToAdd){
+       Connection conn =getConnection();
+       String query="UPDATE accounts SET balance=? where idacc like ?";
+       
+       if(conn!=null){
+           try{
+               PreparedStatement ps=conn.prepareStatement(query);
+               ps.setFloat(1, balance+amountToAdd);
+               
+           }catch(SQLException ex){
+               System.out.println("Error: "+ex.toString());
+           }
+       }
+               //min value to add 10cents //fee for services 50 cents
+       
+   }
     
+   public void subtractMoneyFromAccount(){
+       //do this!
+   }
+   
+   public void createNewAccount(long newAccId,int idc){
+       String query="INSERT INTO accounts(idacc,idc,balance) VALUES(?,?,0)";
+       Connection conn=getConnection();
+       if(conn!=null && !doesAccountExist(newAccId)){
+           try{
+               PreparedStatement ps=conn.prepareStatement(query);
+               ps.setLong(1,newAccId);
+               ps.setInt(2,idc);
+               ps.executeUpdate();
+               System.out.println("new acc created");
+               conn.close();
+               
+           }catch(SQLException ex){
+               System.out.println("Error: "+ex.toString());
+           }
+           
+       }
+   }
+   
+   public boolean doesAccountExist(long idacc){
+       String query="SELECT*FROM accounts WHERE idacc like ?";
+       try{
+           Connection conn= getConnection();
+           PreparedStatement ps= conn.prepareStatement(query);
+           ps.setLong(1,idacc);
+           ResultSet rs= ps.executeQuery();
+           if(rs.next()){
+               return true;
+           }
+           conn.close();
+       }catch(SQLException ex){
+               System.out.println("Error: "+ex.toString());
+       }
+       return false;
+   }
 }
