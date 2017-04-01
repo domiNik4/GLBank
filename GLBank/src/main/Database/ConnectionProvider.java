@@ -384,7 +384,7 @@ private boolean isPasswordUnique(){
       return null;
    }
    
-   public void addMoneyToAccount(long idacc,float balance,float amountToAdd){
+   public void addMoneyToAccount(long idacc,float balance,float amountToAdd,javax.swing.JLabel lblBalance){
        Connection conn =getConnection();
        String query="UPDATE accounts SET balance=? where idacc like ?";
        
@@ -392,6 +392,10 @@ private boolean isPasswordUnique(){
            try{
                PreparedStatement ps=conn.prepareStatement(query);
                ps.setFloat(1, balance+amountToAdd);
+               ps.setLong(2,idacc);
+               ps.executeUpdate();
+               lblBalance.setText(""+(balance+amountToAdd));
+               //System.out.println("Transaction successful");
                
            }catch(SQLException ex){
                System.out.println("Error: "+ex.toString());
@@ -401,8 +405,25 @@ private boolean isPasswordUnique(){
        
    }
     
-   public void subtractMoneyFromAccount(){
+   public void subtractMoneyFromAccount(long idacc,float balance,float amountToSubtract,javax.swing.JLabel lblBalance){
        //do this!
+       Connection conn =getConnection();
+       String query="UPDATE accounts SET balance=? where idacc like ?";
+       float newBalance=(balance-amountToSubtract)*(-1);
+       
+       if(conn!=null){
+           try{
+               PreparedStatement ps=conn.prepareStatement(query);
+               ps.setFloat(1, newBalance);
+               ps.setLong(2,idacc);
+               ps.executeUpdate();
+               lblBalance.setText(""+newBalance);
+               //System.out.println(balance-amountToSubtract);
+               
+           }catch(SQLException ex){
+               System.out.println("Error: "+ex.toString());
+           }
+       }
    }
    
    public void createNewAccount(long newAccId,int idc){
