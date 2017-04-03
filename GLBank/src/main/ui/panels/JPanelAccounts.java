@@ -7,6 +7,7 @@ package main.ui.panels;
 
 import java.util.List;
 import java.util.Random;
+import javax.swing.JOptionPane;
 import main.Accounts;
 import main.Client;
 import main.Database.ConnectionProvider;
@@ -17,6 +18,7 @@ import main.Database.ConnectionProvider;
  */
 public class JPanelAccounts extends javax.swing.JPanel {
     private int idc;
+    private int idemp;
     private List<Accounts> accountsList ;
     private ConnectionProvider cp;
     private int index=1;
@@ -24,12 +26,18 @@ public class JPanelAccounts extends javax.swing.JPanel {
     /**
      * Creates new form JPanelTransactions
      */
-    public JPanelAccounts(int idc) {
+    public JPanelAccounts(int idc,int idemp) {
         initComponents();
         this.idc =idc;
+        this.idemp=idemp;
         cp=new ConnectionProvider();
         accountsList = cp.getAccounts(idc);
-        showListOfAccounts();
+        if(accountsList!=null&&accountsList.size()>0)
+            showListOfAccounts();
+        else{
+            comboAccounts.setEnabled(false);
+            lblBalance.setText("404: accounts not found");
+        }
     }
     
     private void showListOfAccounts(){  
@@ -64,6 +72,10 @@ public class JPanelAccounts extends javax.swing.JPanel {
         btnSubtract = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         btnAddNewAcc = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        lblErrorAdd = new javax.swing.JLabel();
+        lblErrorSubtract = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
 
         jLabel1.setText("Account id:");
 
@@ -136,7 +148,17 @@ public class JPanelAccounts extends javax.swing.JPanel {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(comboAccounts, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(btnAddNewAcc)))))))
+                                        .addComponent(btnAddNewAcc)
+                                        .addGap(36, 36, 36)
+                                        .addComponent(jLabel5))))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(252, 252, 252)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblErrorAdd)
+                                .addGap(117, 117, 117)
+                                .addComponent(lblErrorSubtract))
+                            .addComponent(jLabel3))))
                 .addGap(15, 347, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -146,21 +168,28 @@ public class JPanelAccounts extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(btnAddNewAcc)
-                    .addComponent(comboAccounts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboAccounts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
                 .addGap(39, 39, 39)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(lblBalance))
-                .addGap(65, 65, 65)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtAddMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtSubtractMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4))
+                .addGap(43, 43, 43)
+                .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblErrorAdd)
+                    .addComponent(lblErrorSubtract))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtAddMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSubtractMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSubtract)
                     .addComponent(btnAdd))
-                .addContainerGap(46, Short.MAX_VALUE))
+                .addContainerGap(91, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -179,32 +208,78 @@ public class JPanelAccounts extends javax.swing.JPanel {
         //accountsList =cp.getAccounts(idc);
         comboAccounts.removeAllItems();
         showListOfAccounts();
+        comboAccounts.setEnabled(true);
+        lblErrorAdd.setText("");
+        lblErrorSubtract.setText("");
+        //add popup with a message
     }//GEN-LAST:event_btnAddNewAccActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // add to accountaccount:
+        if(accountsList!=null&&accountsList.size()>0){
         long idacc= accountsList.get(comboAccounts.getSelectedIndex()).getIdAcc();
-        float moneyToAdd=Float.parseFloat(txtAddMoney.getText());
-        float balance=Float.parseFloat(lblBalance.getText());
-        cp.addMoneyToAccount(idacc,moneyToAdd,balance,lblBalance);
-        accountsList = cp.getAccounts(idc);
-        
+        String input=txtAddMoney.getText();
+        if(isInputValid(input)){
+            lblErrorAdd.setText("");
+            float moneyToAdd=Float.parseFloat(input);
+            float balance=Float.parseFloat(lblBalance.getText());
+            cp.addMoneyToAccount(idacc,moneyToAdd,balance,lblBalance);
+            accountsList = cp.getAccounts(idc);
+            JOptionPane.showMessageDialog(this,"Transaction OK");
+        }
+        else{
+            lblErrorAdd.setText("Enter a number with 2 decimal points");
+        }
+       
+        }else{
+            lblErrorAdd.setText("There is no account.");
+        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnSubtractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubtractActionPerformed
         // subtract from account:
+        if(accountsList!=null&&accountsList.size()>0){
         long idacc= accountsList.get(comboAccounts.getSelectedIndex()).getIdAcc();
-        float moneyToSubtract=Float.parseFloat(txtSubtractMoney.getText());
-        float balance=Float.parseFloat(lblBalance.getText());
-        cp.subtractMoneyFromAccount(idacc,moneyToSubtract,balance,lblBalance); 
-        accountsList = cp.getAccounts(idc);
-        
+        String input=txtSubtractMoney.getText();
+        if(isInputValid(input)){
+            lblErrorSubtract.setText("");
+            float moneyToSubtract=Float.parseFloat(input);
+            float balance=Float.parseFloat(lblBalance.getText());
+            cp.subtractMoneyFromAccount(idacc,moneyToSubtract,balance,lblBalance,lblErrorSubtract); 
+            accountsList = cp.getAccounts(idc);
+            cp.createSubtractCashTransactionRecord(idemp,idacc,moneyToSubtract);
+            JOptionPane.showMessageDialog(this,"Transaction OK");
+        }
+        else{
+            lblErrorSubtract.setText("Enter a number with 2 decimal points");//also add success message
+        }
+        }
+        else
+            lblErrorSubtract.setText("There is no account.");
+            
     }//GEN-LAST:event_btnSubtractActionPerformed
-//add verification for input fields!!!
+    
+    private boolean isInputValid(String input){
+        boolean valid = false;
+        
+        if(input!=null&&input.length()>0&&Character.isDigit(input.charAt(0))&&Character.isDigit(input.charAt(input.length()-1))&&Character.isDigit(input.charAt(input.length()-2))){
+            for(int i=0;i<input.length()-3;i++){
+                if(Character.isDigit(input.charAt(i))&&input.charAt(input.length()-3)=='.')
+                    valid=true;
+                else
+                    valid=false;
+            }
+        }
+        return valid;      
+    }
+    
     private void comboAccountsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboAccountsMouseEntered
         // TODO add your handling code here:
-       int index=comboAccounts.getSelectedIndex();
-        lblBalance.setText(""+accountsList.get(index).getBalance());
+       if(accountsList!=null&&accountsList.size()>0){
+           int index=comboAccounts.getSelectedIndex();
+           lblBalance.setText(""+accountsList.get(index).getBalance());
+       }
+       
     }//GEN-LAST:event_comboAccountsMouseEntered
  
 
@@ -215,8 +290,12 @@ public class JPanelAccounts extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> comboAccounts;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel lblBalance;
+    private javax.swing.JLabel lblErrorAdd;
+    private javax.swing.JLabel lblErrorSubtract;
     private javax.swing.JTextField txtAddMoney;
     private javax.swing.JTextField txtSubtractMoney;
     // End of variables declaration//GEN-END:variables

@@ -5,7 +5,9 @@
  */
 package main.ui.panels;
 
+import javax.swing.JFrame;
 import main.Client;
+import main.ui.EditInfoDialog;
 
 /**
  *
@@ -75,7 +77,7 @@ public class JPanelInfo extends javax.swing.JPanel {
         lblStreet = new javax.swing.JLabel();
         lblUsername = new javax.swing.JLabel();
         lblPassword = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
 
         jLabel7.setText("jLabel7");
 
@@ -129,7 +131,12 @@ public class JPanelInfo extends javax.swing.JPanel {
 
         lblPassword.setText("jLabel21");
 
-        jButton1.setText("Edit");
+        btnEdit.setText("Edit");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -185,8 +192,8 @@ public class JPanelInfo extends javax.swing.JPanel {
                                     .addComponent(lblUsername)))
                             .addComponent(jLabel12)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(394, 394, 394)
-                        .addComponent(jButton1)))
+                        .addGap(383, 383, 383)
+                        .addComponent(btnEdit)))
                 .addContainerGap(220, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -230,15 +237,22 @@ public class JPanelInfo extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(lblEmail))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(46, 46, 46))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addComponent(btnEdit)
+                .addGap(70, 70, 70))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        // TODO add your handling code here:
+        EditInfoDialog editDialog = new EditInfoDialog((JFrame)this.getRootPane().getParent(),true/*,client*/);
+        editDialog.setVisible(true);
+        
+    }//GEN-LAST:event_btnEditActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnEdit;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

@@ -95,3 +95,34 @@ INSERT INTO Accounts(idacc,idc,balance) values (1410821632,3,1600.90);
 INSERT INTO Accounts(idacc,idc,balance) values (6401120033,4,148823.14);
 INSERT INTO Accounts(idacc,idc,balance) values (4761775381,5,6.00);
 INSERT INTO Accounts(idacc,idc,balance) values (7326001254,5,120.00);
+
+CREATE TABLE banktransactions (idbt int auto_increment,
+							    amount float(10,2) not null,
+							    transdatetime datetime not null,
+							    description varchar (140) default null,
+							    idemp int not null,
+							    srcacc BIGINT not null,
+							    destacc BIGINT not null,
+							    srcbank int not null,
+							    destbank int not null,
+							    primary key(idbt),
+							    foreign key(idemp) references Employees(idemp)
+							    );
+
+CREATE TABLE cashtransactions (idct int auto_increment,
+							    idemp int not null,
+							    amount FLOAT(10,2) not null,
+							    idacc BIGINT not null,
+							    cashdatetime datetime not null,
+							    primary key(idct),
+							    foreign key(idemp) references Employees(idemp)
+							    );
+
+CREATE TABLE atmwithdrawals (idatmw int auto_increment,
+							  idacc BIGINT not null,
+							  amount int not null,
+							  datetimew datetime not null,
+							  idatm int not null,
+							  idcard int not null
+							  primary key(idatmw),
+							  foreign key(idacc) references Accounts(idacc));

@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.swing.JOptionPane;
 import main.Accounts;
 import main.Client;
 import main.Employee;
@@ -405,12 +406,13 @@ private boolean isPasswordUnique(){
        
    }
     
-   public void subtractMoneyFromAccount(long idacc,float balance,float amountToSubtract,javax.swing.JLabel lblBalance){
+   public void subtractMoneyFromAccount(long idacc,float balance,float amountToSubtract,javax.swing.JLabel lblBalance,javax.swing.JLabel lblError){
        //do this!
        Connection conn =getConnection();
        String query="UPDATE accounts SET balance=? where idacc like ?";
        float newBalance=(balance-amountToSubtract)*(-1);
-       
+       if(newBalance>0){
+           lblError.setText("");
        if(conn!=null){
            try{
                PreparedStatement ps=conn.prepareStatement(query);
@@ -424,6 +426,32 @@ private boolean isPasswordUnique(){
                System.out.println("Error: "+ex.toString());
            }
        }
+       }
+       else{
+           lblError.setText("Not enough money on this account.");
+       }
+   }
+   
+   public void createSubtractCashTransactionRecord(int idemp,long idacc,float amount){
+       String query = "INSERT INTO cashtransactions(idemp,amount,cashdatetime,idacc) values(?,?,?,?)";
+       Connection conn=getConnection();
+       if(conn!=null){
+           try{
+               PreparedStatement ps=conn.prepareStatement(query);
+               ps.setInt(1,idemp);
+               ps.setFloat(2,Float.parseFloat("-"+amount));
+               ps.setString(3,getDateTime());
+               ps.setLong(4,idacc);
+               ps.executeUpdate();           
+                        
+           }catch(SQLException ex){
+               System.out.println("Error: "+ex.toString());
+           }
+       }
+       
+       
+      
+       
    }
    
    public void createNewAccount(long newAccId,int idc){
