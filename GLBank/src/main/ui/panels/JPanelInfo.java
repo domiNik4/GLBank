@@ -13,8 +13,7 @@ import main.ui.EditInfoDialog;
  *
  * @author pc
  */
-public class JPanelInfo extends javax.swing.JPanel {
-    
+public class JPanelInfo extends javax.swing.JPanel {    
     private Client client;
 
     /**
@@ -245,7 +244,7 @@ public class JPanelInfo extends javax.swing.JPanel {
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // TODO add your handling code here:
-        EditInfoDialog editDialog = new EditInfoDialog((JFrame)this.getRootPane().getParent(),true/*,client*/);
+        EditInfoDialog editDialog = new EditInfoDialog((JFrame)this.getRootPane().getParent(),true,client);
         editDialog.setVisible(true);
         
     }//GEN-LAST:event_btnEditActionPerformed

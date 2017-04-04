@@ -223,9 +223,10 @@ public class JPanelAccounts extends javax.swing.JPanel {
             lblErrorAdd.setText("");
             float moneyToAdd=Float.parseFloat(input);
             float balance=Float.parseFloat(lblBalance.getText());
-            cp.addMoneyToAccount(idacc,moneyToAdd,balance,lblBalance);
+            //cp.addMoneyToAccount(idacc,moneyToAdd,balance,lblBalance);//replace with update
             accountsList = cp.getAccounts(idc);
             JOptionPane.showMessageDialog(this,"Transaction OK");
+            txtSubtractMoney.setText("");
         }
         else{
             lblErrorAdd.setText("Enter a number with 2 decimal points");
@@ -245,10 +246,10 @@ public class JPanelAccounts extends javax.swing.JPanel {
             lblErrorSubtract.setText("");
             float moneyToSubtract=Float.parseFloat(input);
             float balance=Float.parseFloat(lblBalance.getText());
-            cp.subtractMoneyFromAccount(idacc,moneyToSubtract,balance,lblBalance,lblErrorSubtract); 
+            cp.subtractMoneyFromAccount(idacc,moneyToSubtract,balance,lblBalance,lblErrorSubtract); //replace with update
             accountsList = cp.getAccounts(idc);
-            cp.createSubtractCashTransactionRecord(idemp,idacc,moneyToSubtract);
             JOptionPane.showMessageDialog(this,"Transaction OK");
+            txtSubtractMoney.setText("");
         }
         else{
             lblErrorSubtract.setText("Enter a number with 2 decimal points");//also add success message

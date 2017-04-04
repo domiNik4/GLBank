@@ -385,8 +385,28 @@ private boolean isPasswordUnique(){
       return null;
    }
    
-   public void addMoneyToAccount(long idacc,float balance,float amountToAdd,javax.swing.JLabel lblBalance){
-       Connection conn =getConnection();
+   public void updateSubtract(){
+       //transaction here
+   }
+   
+   public void updateAdd(int idemp,long idacc,float amount,float balance,float amountToAdd,javax.swing.JLabel lblBalance){
+       //and here
+       try{
+           Connection conn=getConnection();
+           conn.setAutoCommit(false);
+           addMoneyToAccount(idacc,balance,amountToAdd,lblBalance,conn);
+           createAddCashTransactionRecord(idemp,idacc,amount,conn);
+           conn.commit();
+           System.out.println("done!");
+           conn.close();           
+       }catch(SQLException ex){
+               System.out.println("Error: "+ex.toString());
+       }
+     
+   }
+   
+   public void addMoneyToAccount(long idacc,float balance,float amountToAdd,javax.swing.JLabel lblBalance,Connection conn){
+       
        String query="UPDATE accounts SET balance=? where idacc like ?";
        
        if(conn!=null){
@@ -395,9 +415,7 @@ private boolean isPasswordUnique(){
                ps.setFloat(1, balance+amountToAdd);
                ps.setLong(2,idacc);
                ps.executeUpdate();
-               lblBalance.setText(""+(balance+amountToAdd));
-               //System.out.println("Transaction successful");
-               
+               lblBalance.setText(""+(balance+amountToAdd));               
            }catch(SQLException ex){
                System.out.println("Error: "+ex.toString());
            }
@@ -405,9 +423,26 @@ private boolean isPasswordUnique(){
                //min value to add 10cents //fee for services 50 cents
        
    }
-    
+   
+   public void createAddCashTransactionRecord(int idemp,long idacc,float amount,Connection conn){
+       String query = "INSERT INTO cashtransactions(idemp,amount,cashdatetime,idacc) values(?,?,?,?)";
+       if(conn!=null){
+           try{
+               PreparedStatement ps=conn.prepareStatement(query);
+               ps.setInt(1,idemp);
+               ps.setFloat(2,Float.parseFloat(""+amount));
+               ps.setString(3,getDateTime());
+               ps.setLong(4,idacc);
+               ps.executeUpdate();           
+                        
+           }catch(SQLException ex){
+               System.out.println("Error: "+ex.toString());
+           }
+       }
+       
+   }
+       
    public void subtractMoneyFromAccount(long idacc,float balance,float amountToSubtract,javax.swing.JLabel lblBalance,javax.swing.JLabel lblError){
-       //do this!
        Connection conn =getConnection();
        String query="UPDATE accounts SET balance=? where idacc like ?";
        float newBalance=(balance-amountToSubtract)*(-1);
@@ -420,8 +455,7 @@ private boolean isPasswordUnique(){
                ps.setLong(2,idacc);
                ps.executeUpdate();
                lblBalance.setText(""+newBalance);
-               //System.out.println(balance-amountToSubtract);
-               
+                
            }catch(SQLException ex){
                System.out.println("Error: "+ex.toString());
            }
@@ -448,10 +482,6 @@ private boolean isPasswordUnique(){
                System.out.println("Error: "+ex.toString());
            }
        }
-       
-       
-      
-       
    }
    
    public void createNewAccount(long newAccId,int idc){
@@ -489,4 +519,80 @@ private boolean isPasswordUnique(){
        }
        return false;
    }
+   
+   
+   
+   public void updateClient(Client client){
+       try{
+           Connection conn=getConnection();
+           conn.setAutoCommit(false);
+           updateClientRecord(client,conn);
+           updateClientDetails(client,conn);
+           updateClientLogin(client,conn);
+           conn.commit();
+           System.out.println("done!");
+           conn.close();           
+       }catch(SQLException ex){
+               System.out.println("Error: "+ex.toString());
+       }
+   }
+   
+   public void updateClientRecord(Client client,Connection conn){
+       String query="UPDATE Clients SET firstname=?, lastname=?,dob=?, email=? where idc like ?";
+       
+       SimpleDateFormat df = new SimpleDateFormat("dd");
+       SimpleDateFormat mf = new SimpleDateFormat("MM");
+       SimpleDateFormat yf = new SimpleDateFormat("yyyy");
+       String day=df.format(client.getDob());
+       String month=mf.format(client.getDob());
+       String year=yf.format(client.getDob());
+       String date= year+"-"+month+"-"+day;
+       
+       try{
+          
+           PreparedStatement ps= conn.prepareStatement(query);
+           ps.setString(1,client.getFirstname());
+           ps.setString(2,client.getLastname());
+           ps.setString(3,date);
+           ps.setString(4,client.getEmail());
+           ps.setInt(5,client.getIdc());
+           ps.executeUpdate();           
+       }catch(SQLException ex){
+               System.out.println("Error: "+ex.toString());
+       }
+   }
+   
+   public void updateClientDetails(Client client,Connection conn){
+       String query="UPDATE ClientDetails SET street =?, housenumber =?, city =? ,postcode =? where idc like ?";
+       try{
+           
+           PreparedStatement ps= conn.prepareStatement(query);
+           ps.setString(1,client.getStreet());
+           ps.setInt(2,client.getHousenumber());
+           ps.setString(3,client.getCity());
+           ps.setString(4,client.getPostcode());
+           ps.setInt(5,client.getIdc());
+           ps.executeUpdate();              
+
+       }catch(SQLException ex){
+               System.out.println("Error: "+ex.toString());
+       }
+   }
+   
+   public void updateClientLogin(Client client,Connection conn){
+       String query="UPDATE loginclient SET username=? , password=? where idc like ?";
+       try{
+           
+           PreparedStatement ps= conn.prepareStatement(query);
+           ps.setString(1,client.getUsername());
+           ps.setString(2,client.getPassword());
+           ps.setInt(3,client.getIdc());
+           ps.executeUpdate();
+
+       }catch(SQLException ex){
+               System.out.println("Error: "+ex.toString());
+       }
+   }
+   
+   
 }
