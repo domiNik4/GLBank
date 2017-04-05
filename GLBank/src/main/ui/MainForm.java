@@ -228,7 +228,7 @@ public class MainForm extends javax.swing.JFrame {
             JPanelTransactions jpanelTransactions=new JPanelTransactions();
             jTabbedPane1.add("Transactions",jpanelTransactions);
             
-            JPanelCards jpanelCards = new JPanelCards();
+            JPanelCards jpanelCards = new JPanelCards(chosenClient.getIdc());
             jTabbedPane1.add("Cards",jpanelCards);
         }
     }//GEN-LAST:event_comboListOfAllClientsActionPerformed

@@ -223,7 +223,7 @@ public class JPanelAccounts extends javax.swing.JPanel {
             lblErrorAdd.setText("");
             float moneyToAdd=Float.parseFloat(input);
             float balance=Float.parseFloat(lblBalance.getText());
-            //cp.addMoneyToAccount(idacc,moneyToAdd,balance,lblBalance);//replace with update
+            cp.updateAdd(idemp,idacc,balance,moneyToAdd,lblBalance);
             accountsList = cp.getAccounts(idc);
             JOptionPane.showMessageDialog(this,"Transaction OK");
             txtSubtractMoney.setText("");
@@ -246,7 +246,7 @@ public class JPanelAccounts extends javax.swing.JPanel {
             lblErrorSubtract.setText("");
             float moneyToSubtract=Float.parseFloat(input);
             float balance=Float.parseFloat(lblBalance.getText());
-            cp.subtractMoneyFromAccount(idacc,moneyToSubtract,balance,lblBalance,lblErrorSubtract); //replace with update
+            cp.updateSubtract(idemp,idacc,balance, moneyToSubtract,lblBalance, lblErrorSubtract);
             accountsList = cp.getAccounts(idc);
             JOptionPane.showMessageDialog(this,"Transaction OK");
             txtSubtractMoney.setText("");

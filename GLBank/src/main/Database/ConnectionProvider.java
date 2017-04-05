@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import main.Accounts;
+import main.Card;
 import main.Client;
 import main.Employee;
 
@@ -385,17 +386,28 @@ private boolean isPasswordUnique(){
       return null;
    }
    
-   public void updateSubtract(){
+   public void updateSubtract(int idemp,long idacc,float balance,float amountToSubtract,javax.swing.JLabel lblBalance,javax.swing.JLabel lblError){
        //transaction here
+       try{
+           Connection conn=getConnection();
+           conn.setAutoCommit(false);
+           subtractMoneyFromAccount(idacc,balance,amountToSubtract,lblBalance,lblError,conn);
+           createSubtractCashTransactionRecord(idemp,idacc,amountToSubtract,conn);
+           conn.commit();
+           System.out.println("done!");
+           conn.close();           
+       }catch(SQLException ex){
+               System.out.println("Error: "+ex.toString());
+       }
    }
    
-   public void updateAdd(int idemp,long idacc,float amount,float balance,float amountToAdd,javax.swing.JLabel lblBalance){
+   public void updateAdd(int idemp,long idacc,float balance,float amountToAdd,javax.swing.JLabel lblBalance){
        //and here
        try{
            Connection conn=getConnection();
            conn.setAutoCommit(false);
            addMoneyToAccount(idacc,balance,amountToAdd,lblBalance,conn);
-           createAddCashTransactionRecord(idemp,idacc,amount,conn);
+           createAddCashTransactionRecord(idemp,idacc,amountToAdd,conn);
            conn.commit();
            System.out.println("done!");
            conn.close();           
@@ -442,10 +454,9 @@ private boolean isPasswordUnique(){
        
    }
        
-   public void subtractMoneyFromAccount(long idacc,float balance,float amountToSubtract,javax.swing.JLabel lblBalance,javax.swing.JLabel lblError){
-       Connection conn =getConnection();
+   public void subtractMoneyFromAccount(long idacc,float balance,float amountToSubtract,javax.swing.JLabel lblBalance,javax.swing.JLabel lblError,Connection conn){
        String query="UPDATE accounts SET balance=? where idacc like ?";
-       float newBalance=(balance-amountToSubtract)*(-1);
+       float newBalance=balance-amountToSubtract;
        if(newBalance>0){
            lblError.setText("");
        if(conn!=null){
@@ -454,8 +465,7 @@ private boolean isPasswordUnique(){
                ps.setFloat(1, newBalance);
                ps.setLong(2,idacc);
                ps.executeUpdate();
-               lblBalance.setText(""+newBalance);
-                
+               lblBalance.setText(""+newBalance);               
            }catch(SQLException ex){
                System.out.println("Error: "+ex.toString());
            }
@@ -466,9 +476,8 @@ private boolean isPasswordUnique(){
        }
    }
    
-   public void createSubtractCashTransactionRecord(int idemp,long idacc,float amount){
+   public void createSubtractCashTransactionRecord(int idemp,long idacc,float amount,Connection conn){
        String query = "INSERT INTO cashtransactions(idemp,amount,cashdatetime,idacc) values(?,?,?,?)";
-       Connection conn=getConnection();
        if(conn!=null){
            try{
                PreparedStatement ps=conn.prepareStatement(query);
@@ -520,8 +529,7 @@ private boolean isPasswordUnique(){
        return false;
    }
    
-   
-   
+ 
    public void updateClient(Client client){
        try{
            Connection conn=getConnection();
@@ -594,5 +602,34 @@ private boolean isPasswordUnique(){
        }
    }
    
+   
+   public List<Card> getListOfCards(int idc){
+       String query="SELECT * from cards INNER JOIN accounts on accounts.idacc=cards.idacc where accounts.idc = ?";//check this for bugs
+       Connection conn=getConnection();
+       ArrayList cards = new ArrayList();
+       
+       if (conn!=null){
+            try{
+                PreparedStatement ps =conn.prepareStatement(query);
+                ps.setInt(1,idc);                
+                ResultSet rs= ps.executeQuery(query);
+                while(rs.next()){
+                    int idCard = rs.getInt("cards.idcard");
+                    long cardNumber =  rs.getLong("cards.cardnumber");
+                    long idacc = rs.getLong("cards.idacc");
+                    char blocked = rs.getString("cards.blocked").charAt(0);
+                    int pin = rs.getInt("cards.pin");
+                    Card card= new Card(idCard,cardNumber,idacc,blocked,pin);
+                    cards.add(card);
+                }
+                conn.close();
+            }catch(SQLException ex){
+                System.out.println("Error:" + ex.toString());
+                
+            }
+
+        }
+        return cards; 
+   }
    
 }
