@@ -23,9 +23,7 @@ public class JPanelAccounts extends javax.swing.JPanel {
     private ConnectionProvider cp;
     private int index=1;
 
-    /**
-     * Creates new form JPanelTransactions
-     */
+   
     public JPanelAccounts(int idc,int idemp) {
         initComponents();
         this.idc =idc;
@@ -47,10 +45,7 @@ public class JPanelAccounts extends javax.swing.JPanel {
                 String item = account.getIdAcc()+"/2701";
                 comboAccounts.addItem(item);
                 }
-            //System.out.println(index);
-            //System.out.println(""+accountsList.get(index).getBalance());
         }
-        //lblBalance.setText(""+accountsList.get(comboAccounts.getSelectedIndex()).getBalance());
     }
 
     /**
@@ -201,7 +196,7 @@ public class JPanelAccounts extends javax.swing.JPanel {
     }//GEN-LAST:event_comboAccountsActionPerformed
 
     private void btnAddNewAccActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddNewAccActionPerformed
-        // TODO add your handling code here:
+
         long newAccount;
         newAccount=(Math.abs(new Random().nextLong())%1000000000*11);
         cp.createNewAccount(newAccount,idc); 
@@ -215,7 +210,7 @@ public class JPanelAccounts extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAddNewAccActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // add to accountaccount:
+ 
         if(accountsList!=null&&accountsList.size()>0){
         long idacc= accountsList.get(comboAccounts.getSelectedIndex()).getIdAcc();
         String input=txtAddMoney.getText();
@@ -238,7 +233,6 @@ public class JPanelAccounts extends javax.swing.JPanel {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnSubtractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubtractActionPerformed
-        // subtract from account:
         if(accountsList!=null&&accountsList.size()>0){
         long idacc= accountsList.get(comboAccounts.getSelectedIndex()).getIdAcc();
         String input=txtSubtractMoney.getText();
@@ -262,7 +256,6 @@ public class JPanelAccounts extends javax.swing.JPanel {
     
     private boolean isInputValid(String input){
         boolean valid = false;
-        
         if(input!=null&&input.length()>0&&Character.isDigit(input.charAt(0))&&Character.isDigit(input.charAt(input.length()-1))&&Character.isDigit(input.charAt(input.length()-2))){
             for(int i=0;i<input.length()-3;i++){
                 if(Character.isDigit(input.charAt(i))&&input.charAt(input.length()-3)=='.')
@@ -275,7 +268,6 @@ public class JPanelAccounts extends javax.swing.JPanel {
     }
     
     private void comboAccountsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_comboAccountsMouseEntered
-        // TODO add your handling code here:
        if(accountsList!=null&&accountsList.size()>0){
            int index=comboAccounts.getSelectedIndex();
            lblBalance.setText(""+accountsList.get(index).getBalance());

@@ -6,7 +6,8 @@
 package main.ui;
 
 
-import java.sql.Date;
+//import java.sql.Date;
+import java.util.Date;
 import java.text.SimpleDateFormat;
 import main.Client;
 import main.Database.ConnectionProvider;
@@ -278,7 +279,7 @@ public class EditInfoDialog extends javax.swing.JDialog {
         // TODO add your handling code here:     
         String firstname=txtFirstname.getText();
         String lastname=txtLastname.getText();
-        Date dob = (Date)txtDob.getDate();
+        Date dob =txtDob.getDate();
         String email = txtEmail.getText();
         String street = txtStreet.getText();
         int streetNo = Integer.parseInt(txtStreetnumber.getText());
@@ -286,6 +287,8 @@ public class EditInfoDialog extends javax.swing.JDialog {
         String city =txtCity.getText();
         String username=txtUsername.getText();
         String password=txtPassword.getText();  
+        
+        
         Client clientToUpdate = new Client(0, lastname,firstname,email, street, streetNo, postCode,city, username,password,false, false, dob);
         new ConnectionProvider().updateClient(clientToUpdate); //this will work once i fix the damn date
         this.dispose();

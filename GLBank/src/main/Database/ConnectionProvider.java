@@ -557,7 +557,7 @@ private boolean isPasswordUnique(){
        String date= year+"-"+month+"-"+day;
        
        try{
-          
+          //look at this!
            PreparedStatement ps= conn.prepareStatement(query);
            ps.setString(1,client.getFirstname());
            ps.setString(2,client.getLastname());
@@ -602,16 +602,34 @@ private boolean isPasswordUnique(){
        }
    }
    
+   public void createNewCard(Card card){
+       String query="INSERT INTO cards(cardnumber,idc,idacc,blocked,pin)values(?,?,?,?,?)";
+       Connection conn=getConnection();
+       try{
+           PreparedStatement ps=conn.prepareStatement(query);
+           ps.setLong(1,card.getCardNumber());
+           ps.setLong(2,card.getIdc());
+           ps.setLong(3,card.getIdacc());
+           ps.setString(4,""+card.getBlocked());
+           ps.setInt(5,card.getPin());
+           ps.executeUpdate();
+           conn.close();
+       }catch(SQLException ex){
+           System.out.println("Error in create new card: "+ex.toString());
+       }
+   }
+   
    
    public List<Card> getListOfCards(int idc){
-       String query="SELECT * from cards INNER JOIN accounts on accounts.idacc=cards.idacc where accounts.idc = ?";//check this for bugs
+       String query="SELECT * FROM cards WHERE idc like "+idc;
        Connection conn=getConnection();
        ArrayList cards = new ArrayList();
-       
+             
        if (conn!=null){
             try{
-                PreparedStatement ps =conn.prepareStatement(query);
-                ps.setInt(1,idc);                
+                
+               PreparedStatement ps =conn.prepareStatement(query);
+               //ps.setInt(1,idc);
                 ResultSet rs= ps.executeQuery(query);
                 while(rs.next()){
                     int idCard = rs.getInt("cards.idcard");
@@ -619,17 +637,37 @@ private boolean isPasswordUnique(){
                     long idacc = rs.getLong("cards.idacc");
                     char blocked = rs.getString("cards.blocked").charAt(0);
                     int pin = rs.getInt("cards.pin");
-                    Card card= new Card(idCard,cardNumber,idacc,blocked,pin);
+                    Card card= new Card(idCard,idc,cardNumber,idacc,blocked,pin);
                     cards.add(card);
                 }
+                System.out.println("Cards picked");
                 conn.close();
             }catch(SQLException ex){
-                System.out.println("Error:" + ex.toString());
+                System.out.println("Error in list of cards:" + ex.toString());
                 
             }
 
         }
         return cards; 
+   }
+   
+   public void editCard(Card card){
+       String query="UPDATE Cards SET idacc=?,pin=?,blocked=? where idCard like ?";
+       Connection conn=getConnection();
+       
+       try{
+           PreparedStatement ps=conn.prepareStatement(query);
+           ps.setLong(1,card.getIdacc());
+           ps.setInt(2,card.getPin());
+           ps.setString(3,""+card.getBlocked());
+           ps.setInt(4,card.getIdCard());
+           ps.executeUpdate();
+           
+           conn.close();           
+       }catch(SQLException ex){
+            System.out.println(ex.toString());
+       }
+       
    }
    
 }

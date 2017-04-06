@@ -131,8 +131,10 @@ CREATE TABLE atmwithdrawals (idatmw integer not null auto_increment,
 							  );
 
 CREATE TABLE Cards (idcard int auto_increment,
+					idc int not null,
 					cardnumber BIGINT unique not null,
 					idacc BIGINT not null,
+					pin int not null default 1234,
 					blocked char(1) default 'N',
 					primary key(idcard),
 					foreign key (idacc) references Accounts(idacc)
