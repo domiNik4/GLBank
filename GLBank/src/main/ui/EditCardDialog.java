@@ -20,9 +20,6 @@ public class EditCardDialog extends javax.swing.JDialog {
     private List<Accounts> accountsList;
     private Card card;
 
-    /**
-     * Creates new form EditCardDialog
-     */
     public EditCardDialog(java.awt.Frame parent, boolean modal,Card card) {
         super(parent, modal);
         initComponents();
@@ -47,7 +44,7 @@ public class EditCardDialog extends javax.swing.JDialog {
     }
     
     private void initLabels(){
-        lblCardNo.setText(""+card.getCardNumber());
+        lblCardNo.setText(""+card.getCardNumber()+"/2701");
         txtPIN.setText(""+card.getPin());
         if(!(card.getBlocked()=='N'))
             chkBoxBlocked.setSelected(true);

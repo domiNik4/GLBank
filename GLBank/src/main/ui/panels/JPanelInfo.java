@@ -5,6 +5,9 @@
  */
 package main.ui.panels;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
 import javax.swing.JFrame;
 import main.Client;
 import main.ui.EditInfoDialog;
@@ -25,10 +28,20 @@ public class JPanelInfo extends javax.swing.JPanel {
     }
     
     public void initLabels(){
+        
+       SimpleDateFormat df = new SimpleDateFormat("dd");
+       SimpleDateFormat mf = new SimpleDateFormat("MM");
+       SimpleDateFormat yf = new SimpleDateFormat("yyyy");
+       String day=df.format(client.getDob());
+       String month=mf.format(client.getDob());
+       String year=yf.format(client.getDob());
+       String date= year+"-"+month+"-"+day;
+        
+   
         lblID.setText(""+client.getIdc());
         lblFirstname.setText(client.getFirstname());
         lblLastname.setText(client.getLastname());
-        lblDob.setText(""+client.getDob());
+        lblDob.setText(""+date);
         lblEmail.setText(client.getEmail());
         lblStreet.setText(client.getStreet()+" "+client.getHousenumber());
         lblCity.setText(client.getCity());
@@ -246,6 +259,13 @@ public class JPanelInfo extends javax.swing.JPanel {
         // TODO add your handling code here:
         EditInfoDialog editDialog = new EditInfoDialog((JFrame)this.getRootPane().getParent(),true,client);
         editDialog.setVisible(true);
+        
+        editDialog.addWindowListener(new WindowAdapter(){
+            public void windowClosed(WindowEvent e){
+                initLabels();
+                //refresh account combobox too!
+           }
+        });
         
     }//GEN-LAST:event_btnEditActionPerformed
 

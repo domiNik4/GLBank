@@ -588,7 +588,7 @@ private boolean isPasswordUnique(){
    }
    
    public void updateClientLogin(Client client,Connection conn){
-       String query="UPDATE loginclient SET username=? , password=? where idc like ?";
+       String query="UPDATE loginclient SET login=? , password=? where idc like ?";
        try{
            
            PreparedStatement ps= conn.prepareStatement(query);
@@ -640,7 +640,6 @@ private boolean isPasswordUnique(){
                     Card card= new Card(idCard,idc,cardNumber,idacc,blocked,pin);
                     cards.add(card);
                 }
-                System.out.println("Cards picked");
                 conn.close();
             }catch(SQLException ex){
                 System.out.println("Error in list of cards:" + ex.toString());
@@ -669,5 +668,7 @@ private boolean isPasswordUnique(){
        }
        
    }
+   
+   
    
 }
