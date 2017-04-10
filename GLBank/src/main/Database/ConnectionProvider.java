@@ -669,6 +669,56 @@ private boolean isPasswordUnique(){
        
    }
    
+   public void performBankTransaction(Accounts thisAccount,long offsetAccount,int bankCode,float amount,Connection conn){
+       String query="UPDATE accounts SET balance=? where idacc like ?";
+       float balance = thisAccount.getBalance()-amount;
+       try{
+           PreparedStatement ps=conn.prepareStatement(query);
+           ps.setFloat(1,balance);
+           ps.setLong(2,thisAccount.getIdAcc());
+           ps.executeUpdate();
+           
+       }catch(SQLException ex){
+           System.out.println("Error: "+ ex.toString());
+       }
+       
+   }
+   
+   public void createBankTransactionRecord(float amount,String description, long thisAccount, long offsetAccount, int bankCode,int idemp,Connection conn){
+       String query="INSERT INTO banktransactions(amount,transdatetime,description,idemp,srcacc,destacc,srcbank,destbank)VALUES(?,?,?,?,?,?,?,?) ";
+       try{
+           PreparedStatement ps=conn.prepareStatement(query);
+           ps.setFloat(1,amount);
+           ps.setString(2,getDateTime());
+           ps.setString(3,description);
+           ps.setInt(4,idemp);
+           ps.setLong(5,thisAccount);
+           ps.setLong(6,offsetAccount);
+           ps.setInt(7, 2701);
+           ps.setInt(8, bankCode);
+           ps.executeUpdate();
+       }catch(SQLException ex){
+           System.out.println("Error: "+ ex.toString());
+       }
+       
+   }
+   
+   public void updateBankTransaction(float amount, Accounts thisAccount, long offsetAccount, int bankCode, String description,int idemp){
+       try{
+           Connection conn=getConnection();
+           conn.setAutoCommit(false);
+           performBankTransaction(thisAccount,offsetAccount,bankCode,amount,conn);
+           createBankTransactionRecord(amount,description,thisAccount.getIdAcc(),offsetAccount,bankCode,idemp,conn);
+           conn.commit();
+           System.out.println("done!");
+           conn.close();           
+       }catch(SQLException ex){
+               System.out.println("Error: "+ex.toString());
+       }
+       
+   }
+   
+   
    
    
 }

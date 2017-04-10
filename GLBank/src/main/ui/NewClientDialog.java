@@ -266,7 +266,6 @@ public class NewClientDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCreateActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
     
@@ -274,7 +273,7 @@ public class NewClientDialog extends javax.swing.JDialog {
           boolean areValid =verifyFirstname()&&verifyLastname()&&verifyDob()&&verifyEmail()&&verifyStreet()&&verifyStreetNumber()&&verifyPostcode()&&verifyCity()&&verifyUsername();
            return areValid;
     }
-    
+    //this stuff will go away soon \/
     private boolean verifyFirstname(){
         String firstname = txtFirstname.getText();
         boolean valid=false;
