@@ -52,8 +52,6 @@ public class LoginForm extends javax.swing.JFrame {
 
         jLabel4.setText("Password:");
 
-        txtPassword.setText("jPasswordField1");
-
         btnLogin.setText("Log in");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -122,7 +120,6 @@ public class LoginForm extends javax.swing.JFrame {
         if(!login.equals("") && password.length() >3){
             ConnectionProvider conn=new ConnectionProvider();
             if(conn.isEmployeePasswordValid(login,password)){
-                //System.out.println("Password OK");
                 conn.logEmployeeAccess(conn.getEmployeeId(login));
                 
                 MainForm mainForm= new MainForm(conn.getEmployeeId(login));

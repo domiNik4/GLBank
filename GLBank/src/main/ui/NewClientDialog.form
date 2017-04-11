@@ -220,7 +220,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="0" red="ff" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Invalid username"/>
+        <Property name="text" type="java.lang.String" value="Invalid First name"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="errorLastnameLbl">
@@ -228,7 +228,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="0" red="ff" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Invalid username"/>
+        <Property name="text" type="java.lang.String" value="Invalid last name"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="errorDobLbl">

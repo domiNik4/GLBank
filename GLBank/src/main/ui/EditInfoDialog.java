@@ -10,6 +10,7 @@ package main.ui;
 
 import main.Client;
 import main.Database.ConnectionProvider;
+import main.ui.verification.InputVerification;
 
 /**
  *
@@ -62,6 +63,16 @@ public class EditInfoDialog extends javax.swing.JDialog {
         submitBtn = new javax.swing.JButton();
         cancelBtn = new javax.swing.JButton();
         txtDob = new org.jdesktop.swingx.JXDatePicker();
+        errorFirstname = new javax.swing.JLabel();
+        errorStreet = new javax.swing.JLabel();
+        errorLastname = new javax.swing.JLabel();
+        errorStreetNo = new javax.swing.JLabel();
+        errorCity = new javax.swing.JLabel();
+        errorDob = new javax.swing.JLabel();
+        errorPostcode = new javax.swing.JLabel();
+        errorMail = new javax.swing.JLabel();
+        errorUsername = new javax.swing.JLabel();
+        errorPassword = new javax.swing.JLabel();
 
         jLabel1.setText("jLabel1");
 
@@ -131,6 +142,36 @@ public class EditInfoDialog extends javax.swing.JDialog {
             }
         });
 
+        errorFirstname.setForeground(new java.awt.Color(204, 0, 0));
+        errorFirstname.setText("Invalid name");
+
+        errorStreet.setForeground(new java.awt.Color(204, 0, 0));
+        errorStreet.setText("Invalid street");
+
+        errorLastname.setForeground(new java.awt.Color(204, 0, 0));
+        errorLastname.setText("Invalid last name");
+
+        errorStreetNo.setForeground(new java.awt.Color(204, 0, 0));
+        errorStreetNo.setText("Enter numbers");
+
+        errorCity.setForeground(new java.awt.Color(204, 0, 0));
+        errorCity.setText("Invalid city");
+
+        errorDob.setForeground(new java.awt.Color(204, 0, 0));
+        errorDob.setText("Invalid date");
+
+        errorPostcode.setForeground(new java.awt.Color(204, 0, 0));
+        errorPostcode.setText("Enter numbers");
+
+        errorMail.setForeground(new java.awt.Color(204, 0, 0));
+        errorMail.setText("Invalid email");
+
+        errorUsername.setForeground(new java.awt.Color(204, 0, 0));
+        errorUsername.setText("Invalid username");
+
+        errorPassword.setForeground(new java.awt.Color(204, 0, 0));
+        errorPassword.setText("Enter a password.");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -158,26 +199,32 @@ public class EditInfoDialog extends javax.swing.JDialog {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
+                                        .addGap(220, 220, 220)
+                                        .addComponent(submitBtn))
+                                    .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(jLabel6)
                                             .addComponent(jLabel7)
                                             .addComponent(jLabel8)
                                             .addComponent(jLabel9))
                                         .addGap(25, 25, 25)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(txtFirstname)
-                                            .addComponent(txtLastname)
-                                            .addComponent(txtEmail)
-                                            .addComponent(txtDob, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE))
-                                        .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel14)
-                                            .addComponent(jLabel11)
-                                            .addComponent(jLabel12)
-                                            .addComponent(jLabel13)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(220, 220, 220)
-                                        .addComponent(submitBtn)))
+                                            .addComponent(errorFirstname)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addComponent(txtFirstname)
+                                                    .addComponent(txtLastname)
+                                                    .addComponent(txtEmail)
+                                                    .addComponent(txtDob, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE))
+                                                .addGap(18, 18, 18)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel14)
+                                                    .addComponent(jLabel11)
+                                                    .addComponent(jLabel12)
+                                                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING)))
+                                            .addComponent(errorLastname)
+                                            .addComponent(errorDob)
+                                            .addComponent(errorMail))))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(cancelBtn)
@@ -185,18 +232,26 @@ public class EditInfoDialog extends javax.swing.JDialog {
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(txtStreetnumber, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
                                             .addComponent(txtStreet)
-                                            .addComponent(txtCity)
-                                            .addComponent(txtPostcode))
+                                            .addComponent(txtCity))
                                         .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(jLabel16)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(errorUsername)
+                                                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(jLabel17)
                                                 .addGap(18, 18, 18)
-                                                .addComponent(txtPassword)))))))))
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(errorPassword)
+                                                    .addComponent(txtPassword)))))
+                                    .addComponent(errorStreet)
+                                    .addComponent(errorStreetNo)
+                                    .addComponent(txtPostcode, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(errorCity)
+                                    .addComponent(errorPostcode))))))
                 .addContainerGap(41, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -223,27 +278,51 @@ public class EditInfoDialog extends javax.swing.JDialog {
                         .addComponent(txtStreet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel16)
                         .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(22, 22, 22)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(errorFirstname)
+                            .addComponent(errorUsername))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(txtLastname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel14)
+                            .addComponent(txtStreetnumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel17)
+                            .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(errorLastname)
+                                    .addComponent(errorStreetNo))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel12)
+                                    .addComponent(txtCity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtDob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(errorPassword))))
+                    .addComponent(errorStreet))
+                .addGap(6, 6, 6)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(errorCity)
+                    .addComponent(errorDob))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(txtLastname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel14)
-                    .addComponent(txtStreetnumber, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel17)
-                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel12)
-                    .addComponent(txtCity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDob, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
+                    .addComponent(txtPostcode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel13)
-                    .addComponent(txtPostcode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(errorPostcode)
+                    .addComponent(errorMail))
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(submitBtn)
                     .addComponent(cancelBtn))
@@ -266,22 +345,54 @@ public class EditInfoDialog extends javax.swing.JDialog {
         txtPostcode.setText(client.getPostcode());
         txtUsername.setText(client.getUsername());
         txtPassword.setText(client.getPassword());
+        errorCity.setVisible(false);
+        errorDob.setVisible(false);
+        errorFirstname.setVisible(false);
+        errorLastname.setVisible(false);
+        errorMail.setVisible(false);
+        errorPassword.setVisible(false);
+        errorPostcode.setVisible(false);
+        errorStreet.setVisible(false);
+        errorStreetNo.setVisible(false);
+        errorUsername.setVisible(false);
     }
     private void submitBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitBtnActionPerformed
-        // TODO add your handling code here:     
-        client.setFirstname(txtFirstname.getText());
-        client.setLastname(txtLastname.getText());
-        client.setDob(txtDob.getDate());
-        client.setEmail(txtEmail.getText());
-        client.setStreet(txtStreet.getText());
-        client.setHousenumber(Integer.parseInt(txtStreetnumber.getText()));
-        client.setPostcode(txtPostcode.getText());
-        client.setCity(txtCity.getText());
-        client.setUsername(txtUsername.getText());
-        client.setPassword(txtPassword.getText());        
-        new ConnectionProvider().updateClient(client); //this will work once i fix the damn date
-        this.dispose();
-        
+         InputVerification iv = new InputVerification();
+         
+            iv.isNameValid(txtFirstname.getText(),errorFirstname);
+           iv.isNameValid(txtLastname.getText(),errorLastname);
+           iv.isEmailValid(txtEmail.getText(),errorMail);
+           iv.isDobValid(txtDob.getDate(), errorDob);
+           iv.isCityValid(txtCity.getText(), errorCity);
+           iv.isStreetValid(txtStreet.getText(),errorStreet);
+           iv.isStreetNumberValid(""+txtStreetnumber.getText(),errorStreetNo);
+           iv.isPostcodeValid(txtPostcode.getText(), errorPostcode);
+           iv.isUsernameValid(txtUsername.getText(), errorUsername);
+           iv.isPasswordValid(txtPassword.getText(),errorPassword);
+         
+        if(iv.isNameValid(txtFirstname.getText(),errorFirstname)&&
+           iv.isNameValid(txtLastname.getText(),errorLastname)&&
+           iv.isEmailValid(txtEmail.getText(),errorMail)&&
+           iv.isDobValid(txtDob.getDate(), errorDob)&&
+           iv.isCityValid(txtCity.getText(), errorCity)&&
+           iv.isStreetValid(txtStreet.getText(),errorStreet)&&
+           iv.isStreetNumberValid(""+txtStreetnumber.getText(),errorStreetNo)&&
+           iv.isPostcodeValid(txtPostcode.getText(), errorPostcode)&&
+           iv.isUsernameValid(txtUsername.getText(), errorUsername)&&
+           iv.isPasswordValid(txtPassword.getText(),errorPassword)){
+            client.setFirstname(txtFirstname.getText());
+            client.setLastname(txtLastname.getText());
+            client.setDob(txtDob.getDate());
+            client.setEmail(txtEmail.getText());
+            client.setStreet(txtStreet.getText());
+            client.setHousenumber(Integer.parseInt(txtStreetnumber.getText()));
+            client.setPostcode(txtPostcode.getText());
+            client.setCity(txtCity.getText());
+            client.setUsername(txtUsername.getText());
+            client.setPassword(txtPassword.getText());        
+                new ConnectionProvider().updateClient(client); 
+                this.dispose();
+        }
     }//GEN-LAST:event_submitBtnActionPerformed
 
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
@@ -290,6 +401,16 @@ public class EditInfoDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelBtn;
+    private javax.swing.JLabel errorCity;
+    private javax.swing.JLabel errorDob;
+    private javax.swing.JLabel errorFirstname;
+    private javax.swing.JLabel errorLastname;
+    private javax.swing.JLabel errorMail;
+    private javax.swing.JLabel errorPassword;
+    private javax.swing.JLabel errorPostcode;
+    private javax.swing.JLabel errorStreet;
+    private javax.swing.JLabel errorStreetNo;
+    private javax.swing.JLabel errorUsername;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

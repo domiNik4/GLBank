@@ -14,8 +14,8 @@ import java.util.Date;
  */
 public class InputVerification {
     
-    //checks first and last names 
-    private boolean isNameValid(String name,javax.swing.JLabel lblError){
+    //check client credentials
+    public boolean isNameValid(String name,javax.swing.JLabel lblError){
         boolean valid=false;
         if(name!=null&&name.length()>=2&&name.length()<=20){
             for(int i=0;i<2;i++){
@@ -42,7 +42,7 @@ public class InputVerification {
         return valid;
     }
     
-    private boolean isDobValid( Date dob,javax.swing.JLabel lblError ){
+    public boolean isDobValid( Date dob,javax.swing.JLabel lblError ){
         boolean valid=false;
         SimpleDateFormat df = new SimpleDateFormat("dd/mm/yyyy");
         SimpleDateFormat yr = new SimpleDateFormat("yyyy");
@@ -57,7 +57,7 @@ public class InputVerification {
         return valid;
     }
     
-     private boolean verifyEmail(String email,javax.swing.JLabel lblError){
+    public boolean isEmailValid(String email,javax.swing.JLabel lblError){
 
         boolean valid=false;
         
@@ -69,7 +69,7 @@ public class InputVerification {
         return valid;
     }
     
-    private boolean isStreetValid(String street,javax.swing.JLabel lblError){
+    public boolean isStreetValid(String street,javax.swing.JLabel lblError){
 
         boolean valid=false;
         if(street!=null&&street.length()<=30){
@@ -85,7 +85,7 @@ public class InputVerification {
         return valid;
     }
     
-    private boolean isStreetNumberValid(String streetnumber,javax.swing.JLabel lblError){
+    public boolean isStreetNumberValid(String streetnumber,javax.swing.JLabel lblError){
         boolean valid =false;
         if(streetnumber!=null){
             for(int i=0;i<streetnumber.length();i++){
@@ -100,7 +100,7 @@ public class InputVerification {
         return valid;
     }
     
-    private boolean isPostcodeValid(String postCode,javax.swing.JLabel lblError){
+    public boolean isPostcodeValid(String postCode,javax.swing.JLabel lblError){
         boolean valid=false;
         if(postCode!=null&&postCode.length()==5){
             for(int i=0;i<postCode.length();i++){
@@ -115,7 +115,7 @@ public class InputVerification {
         return valid;
     }
     
-    private boolean isCityValid(String city, javax.swing.JLabel lblError){
+    public boolean isCityValid(String city, javax.swing.JLabel lblError){
         boolean valid=false;
         if(city!=null&&city.length()<=20){
             for(int i=0;i<city.length();i++){
@@ -129,13 +129,15 @@ public class InputVerification {
         return valid;
     }
     
-    private boolean isUsernameValid(String username,javax.swing.JLabel lblError){
+    public boolean isUsernameValid(String username,javax.swing.JLabel lblError){
 
-        boolean valid=true;
-        if(username!=null&&username.length()<=20){
+        boolean valid=false;
+        if(username!=null&&username.length()<=20&&username.length()>2){
             for(int i=0;i<username.length();i++){
-                if(!Character.isLetter(username.charAt(i)))
-                        valid=false;
+                if(Character.isLetter(username.charAt(i))||Character.isDigit(username.charAt(i)))
+                        valid=true;
+                else
+                    valid=false;
             }
         }
         if(valid==false){
@@ -144,4 +146,19 @@ public class InputVerification {
         return valid;
     }
     
+    public boolean isPasswordValid(String password,javax.swing.JLabel lblError ){
+        
+        if(password!=null&&password.length()>5&&(!password.contains(" "))){
+            return true;
+        }else{
+            lblError.setVisible(true);
+            return false;
+        }
+    }
+    
+    //check number input fields -to be added
+    
+   
+    
 }
+

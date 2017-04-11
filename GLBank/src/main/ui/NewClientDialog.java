@@ -13,6 +13,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import main.Client;
 import main.Database.ConnectionProvider;
+import main.ui.verification.InputVerification;
 
 /**
  *
@@ -101,10 +102,10 @@ public class NewClientDialog extends javax.swing.JDialog {
         });
 
         errorFirstnameLbl.setForeground(new java.awt.Color(255, 0, 0));
-        errorFirstnameLbl.setText("Invalid username");
+        errorFirstnameLbl.setText("Invalid First name");
 
         errorLastnameLbl.setForeground(new java.awt.Color(255, 0, 0));
-        errorLastnameLbl.setText("Invalid username");
+        errorLastnameLbl.setText("Invalid last name");
 
         errorDobLbl.setForeground(new java.awt.Color(255, 0, 0));
         errorDobLbl.setText("Invalid date of birth");
@@ -237,30 +238,43 @@ public class NewClientDialog extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateActionPerformed
-
+        
+        InputVerification verification = new InputVerification();
+        
         String firstname=txtFirstname.getText();
         String lastname=txtLastname.getText();
         Date dob = txtDob.getDate();
         String email = txtEmail.getText();
         String street = txtStreet.getText();
-        int streetNo = Integer.parseInt(txtStreetnumber.getText());
+        String streetNo = txtStreetnumber.getText();
         String postCode = txtPostcode.getText();
         String city =txtCity.getText();
         String username=txtUsername.getText();
-        String password=txtPassword.getText();  
-        verifyFirstname();
-        verifyLastname();
-        verifyDob();
-        verifyEmail();
-        verifyStreet();
-        verifyStreetNumber();
-        verifyPostcode();
-        verifyCity();
-        verifyUsername();
-        if(verifyInputFields()){
-             Client newClient = new Client(0, lastname,firstname,email, street, streetNo, postCode,city, username,password,false, false, dob);
+        String password=txtPassword.getText(); 
+        
+        verification.isNameValid(firstname,errorFirstnameLbl);
+        verification.isNameValid(lastname,errorLastnameLbl);
+        verification.isDobValid(dob,errorDobLbl);
+        verification.isEmailValid(email, errorMailLbl);
+        verification.isStreetValid(street,errorStreetLbl);
+        verification.isCityValid(city, errorCityLbl);
+        verification.isStreetNumberValid(""+streetNo,errorStreetnumberLbl);
+        verification.isPostcodeValid(postCode,errorPostcodeLbl);
+        verification.isUsernameValid(username, errorUsernameLbl);
+        
+        if( verification.isNameValid(firstname,errorFirstnameLbl)&&
+        verification.isNameValid(lastname,errorLastnameLbl)&&
+        verification.isDobValid(dob,errorDobLbl)&&
+        verification.isEmailValid(email,errorMailLbl)&&
+        verification.isStreetValid(street, errorStreetLbl)&&
+        verification.isCityValid(city, errorCityLbl)&&
+        verification.isStreetNumberValid(""+streetNo,errorStreetnumberLbl)&&
+        verification.isPostcodeValid(postCode,errorPostcodeLbl)&&
+        verification.isUsernameValid(username, errorUsernameLbl)){
+             Client newClient = new Client(0, lastname,firstname,email, street, Integer.parseInt(streetNo), postCode,city, username,password,false, false, dob);
              new ConnectionProvider().addClientRecord(newClient);
              this.dispose();
+            
         }
         
     }//GEN-LAST:event_btnCreateActionPerformed
@@ -268,151 +282,8 @@ public class NewClientDialog extends javax.swing.JDialog {
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         this.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
-    
-    private boolean verifyInputFields(){
-          boolean areValid =verifyFirstname()&&verifyLastname()&&verifyDob()&&verifyEmail()&&verifyStreet()&&verifyStreetNumber()&&verifyPostcode()&&verifyCity()&&verifyUsername();
-           return areValid;
-    }
-    //this stuff will go away soon \/
-    private boolean verifyFirstname(){
-        String firstname = txtFirstname.getText();
-        boolean valid=false;
-        if(firstname!=null&&firstname.length()<=20){
-            for(int i=0;i<firstname.length();i++){
-                if(Character.isLetter(firstname.charAt(i)))
-                        valid=true;
-                    
-            }
-        }
-        if(valid==false)
-            errorFirstnameLbl.setVisible(true);
-        return valid;
-    }
-    
-    private boolean verifyLastname(){
-        String lastname = txtLastname.getText();
-        boolean valid=true;
-        if(lastname!=null&&lastname.length()<=20){
-            for(int i=0;i<lastname.length();i++){
-                if(!Character.isLetter(lastname.charAt(i)))
-                        valid=false;
-                    
-            }
-        }
-        if(valid==false){
-            errorLastnameLbl.setVisible(true);
-        }
-        return valid;
-        
-    }
-    
-    private boolean verifyDob(){
-        boolean valid=false;
-        SimpleDateFormat df = new SimpleDateFormat("dd/mm/yyyy");
-        SimpleDateFormat yr = new SimpleDateFormat("yyyy");
- 
-        
-        Date dob= txtDob.getDate();
-        String dateOfBirth=df.format(dob);
-        int year=Integer.parseInt(yr.format(dob));
-     
-        if(dateOfBirth!=null&&year<2001)
-            valid=true;
-        if (valid==false)
-                errorDobLbl.setVisible(true);
-        return valid;
-    }
-    
-    private boolean verifyEmail(){
-        String email=txtEmail.getText();
 
-        boolean valid=false;
-        
-        if(email!=null&&email.length()>5 /*altered for testing purposes*/)
-            valid=true;
-        
-        if (valid==false)
-            errorMailLbl.setVisible(true);
-        return valid;
-    }
     
-    private boolean verifyStreet(){
-        String street = txtStreet.getText();
-        boolean valid=false;
-        if(street!=null&&street.length()<=30){
-            for(int i=0;i<street.length();i++){
-                if(Character.isLetter(street.charAt(i)))
-                        valid=true;
-                    
-            }
-        }
-        if(valid==false)
-            errorStreetLbl.setVisible(true);
-        
-        return valid;
-    }
-    
-    private boolean verifyStreetNumber(){
-        String streetnumber =txtStreetnumber.getText();
-        boolean valid =false;
-        if(streetnumber!=null){
-            for(int i=0;i<streetnumber.length();i++){
-                if(Character.isDigit(streetnumber.charAt(i)))
-                    valid=true;
-                
-            }
-        }
-        if(valid==false){
-            errorStreetnumberLbl.setVisible(true);
-        }
-        return valid;
-    }
-    
-    private boolean verifyPostcode(){
-        String postCode = txtPostcode.getText();
-        boolean valid=false;
-        if(postCode!=null&&postCode.length()==5){
-            for(int i=0;i<postCode.length();i++){
-                if(Character.isDigit(postCode.charAt(i)))
-                        valid=true;
-                    
-            }
-        }
-        if(valid==false){
-            errorPostcodeLbl.setVisible(true);
-        }
-        return valid;
-    }
-    
-    private boolean verifyCity(){
-        String city = txtCity.getText();
-        boolean valid=false;
-        if(city!=null&&city.length()<=20){
-            for(int i=0;i<city.length();i++){
-                if(Character.isLetter(city.charAt(i)))
-                        valid=true;
-            }
-        }
-         if(valid==false){
-            errorCityLbl.setVisible(true);
-        }
-        return valid;
-    }
-    
-    private boolean verifyUsername(){
-        String username = txtUsername.getText();
-        boolean valid=true;
-        if(username!=null&&username.length()<=20){
-            for(int i=0;i<username.length();i++){
-                if(!Character.isLetter(username.charAt(i)))
-                        valid=false;
-            }
-        }
-        if(valid==false){
-            errorUsernameLbl.setVisible(true);
-        }
-        return valid;
-    }
     
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -437,7 +308,6 @@ public class NewClientDialog extends javax.swing.JDialog {
         }
         //</editor-fold>
 
-        /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 NewClientDialog dialog = new NewClientDialog(new javax.swing.JFrame(), true);
