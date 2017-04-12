@@ -148,7 +148,7 @@ public class InputVerification {
     
     public boolean isPasswordValid(String password,javax.swing.JLabel lblError ){
         
-        if(password!=null&&password.length()>5&&(!password.contains(" "))){
+        if(password!=null &&password.length()>5&&(!password.contains(" "))){
             return true;
         }else{
             lblError.setVisible(true);

@@ -15,7 +15,7 @@ import main.Client;
 import main.Database.ConnectionProvider;
 import main.Employee;
 import main.ui.panels.JPanelCards;
-import main.ui.panels.JPanelHistory;
+import main.ui.panels.JPanelTransHistory;
 import main.ui.panels.JPanelTransactions;
 
 /**
@@ -232,7 +232,7 @@ public class MainForm extends javax.swing.JFrame {
             JPanelCards jpanelCards = new JPanelCards(chosenClient.getIdc());
             jTabbedPane1.add("Cards",jpanelCards);
             
-            JPanelHistory jpanelHistory = new JPanelHistory();
+            JPanelTransHistory jpanelHistory = new JPanelTransHistory(chosenClient.getIdc());
             jTabbedPane1.add("History",jpanelHistory);
         }
     }//GEN-LAST:event_comboListOfAllClientsActionPerformed

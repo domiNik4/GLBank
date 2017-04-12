@@ -52,6 +52,10 @@ public class LoginForm extends javax.swing.JFrame {
 
         jLabel4.setText("Password:");
 
+        txtLogin.setText("Username");
+
+        txtPassword.setText("12232424255353");
+
         btnLogin.setText("Log in");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -129,10 +133,12 @@ public class LoginForm extends javax.swing.JFrame {
                 //System.out.println("wrong username or pass.try again");
                 lblError.setText("wrong username or password");
             }
-            
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 
+    
+    
+    
     /**
      * @param args the command line arguments
      */
