@@ -17,9 +17,11 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import main.Accounts;
+import main.BankTransaction;
 import main.Card;
 import main.Client;
 import main.Employee;
+
 
 /**
  *
@@ -37,6 +39,7 @@ public class ConnectionProvider {
     private Connection getConnection (){
         Connection conn =null;
         try{
+            
             conn = DriverManager.getConnection(URL+DBNAME, USERNAME , PASSWORD);
         }catch(SQLException ex){
             System.out.println("Error:" + ex.toString());
@@ -717,6 +720,26 @@ private boolean isPasswordUnique(){
        }
        
    }
+   
+   public List<BankTransaction> getBankTransactions(){//get trans from db, put the stuff in a table
+       ArrayList transactions=new ArrayList();
+       String query="SELECT * FROM banktransactions";
+       Connection conn=getConnection();
+       
+       try{
+           PreparedStatement ps=conn.prepareStatement(query);
+           ResultSet rs=ps.executeQuery();
+       
+       }catch(SQLException ex){
+           System.out.println("Error: "+ex.toString());
+           
+       }
+       
+       
+       
+       return transactions;
+   }
+   
    
    
    

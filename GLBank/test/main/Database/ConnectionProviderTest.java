@@ -5,7 +5,13 @@
  */
 package main.Database;
 
+import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JLabel;
+import main.Accounts;
+import main.BankTransaction;
+import main.Card;
 import main.Client;
 import main.Employee;
 import org.junit.After;
@@ -150,7 +156,7 @@ public class ConnectionProviderTest {
     public void testGetDateTime() {
         System.out.println("getDateTime");
         ConnectionProvider instance = new ConnectionProvider();
-        String expResult = "";
+        String expResult = instance.getDateTime();
         String result = instance.getDateTime();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
@@ -163,11 +169,10 @@ public class ConnectionProviderTest {
     @Test
     public void testLogEmployeeAccess() {
         System.out.println("logEmployeeAccess");
-        int id = 0;
+        int id = 1;
         ConnectionProvider instance = new ConnectionProvider();
         instance.logEmployeeAccess(id);
-        // TODO review the generated test code and remove the default call to fail.
-        //fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -177,7 +182,7 @@ public class ConnectionProviderTest {
     public void testChangePassword() {
         System.out.println("changePassword");
         int idemp = 0;
-        String newPass = "";
+        String newPass = "asdfgh";
         ConnectionProvider instance = new ConnectionProvider();
         instance.changePassword(idemp, newPass);
         // TODO review the generated test code and remove the default call to fail.
@@ -191,7 +196,7 @@ public class ConnectionProviderTest {
     public void testGetListOfAllClients() {
         System.out.println("getListOfAllClients");
         ConnectionProvider instance = new ConnectionProvider();
-        ArrayList expResult = null;
+        ArrayList expResult = instance.getListOfAllClients();
         ArrayList result = instance.getListOfAllClients();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
@@ -225,9 +230,316 @@ public class ConnectionProviderTest {
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }
-    
-     
-    
-    
+
+    /**
+     * Test of getAccounts method, of class ConnectionProvider.
+     */
+    @Test
+    public void testGetAccounts() {
+        System.out.println("getAccounts");
+        int idc = 0;
+        ConnectionProvider instance = new ConnectionProvider();
+        List<Accounts> expResult = null;
+        List<Accounts> result = instance.getAccounts(idc);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of updateSubtract method, of class ConnectionProvider.
+     */
+    @Test
+    public void testUpdateSubtract() {
+        System.out.println("updateSubtract");
+        int idemp = 0;
+        long idacc = 0L;
+        float balance = 0.0F;
+        float amountToSubtract = 0.0F;
+        JLabel lblBalance = null;
+        JLabel lblError = null;
+        ConnectionProvider instance = new ConnectionProvider();
+        instance.updateSubtract(idemp, idacc, balance, amountToSubtract, lblBalance, lblError);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of updateAdd method, of class ConnectionProvider.
+     */
+    @Test
+    public void testUpdateAdd() {
+        System.out.println("updateAdd");
+        int idemp = 0;
+        long idacc = 0L;
+        float balance = 0.0F;
+        float amountToAdd = 0.0F;
+        JLabel lblBalance = null;
+        ConnectionProvider instance = new ConnectionProvider();
+        instance.updateAdd(idemp, idacc, balance, amountToAdd, lblBalance);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of addMoneyToAccount method, of class ConnectionProvider.
+     */
+    @Test
+    public void testAddMoneyToAccount() {
+        System.out.println("addMoneyToAccount");
+        long idacc = 0L;
+        float balance = 0.0F;
+        float amountToAdd = 0.0F;
+        JLabel lblBalance = null;
+        Connection conn = null;
+        ConnectionProvider instance = new ConnectionProvider();
+        instance.addMoneyToAccount(idacc, balance, amountToAdd, lblBalance, conn);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of createAddCashTransactionRecord method, of class ConnectionProvider.
+     */
+    @Test
+    public void testCreateAddCashTransactionRecord() {
+        System.out.println("createAddCashTransactionRecord");
+        int idemp = 0;
+        long idacc = 0L;
+        float amount = 0.0F;
+        Connection conn = null;
+        ConnectionProvider instance = new ConnectionProvider();
+        instance.createAddCashTransactionRecord(idemp, idacc, amount, conn);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of subtractMoneyFromAccount method, of class ConnectionProvider.
+     */
+    @Test
+    public void testSubtractMoneyFromAccount() {
+        System.out.println("subtractMoneyFromAccount");
+        long idacc = 0L;
+        float balance = 0.0F;
+        float amountToSubtract = 0.0F;
+        JLabel lblBalance = null;
+        JLabel lblError = null;
+        Connection conn = null;
+        ConnectionProvider instance = new ConnectionProvider();
+        instance.subtractMoneyFromAccount(idacc, balance, amountToSubtract, lblBalance, lblError, conn);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of createSubtractCashTransactionRecord method, of class ConnectionProvider.
+     */
+    @Test
+    public void testCreateSubtractCashTransactionRecord() {
+        System.out.println("createSubtractCashTransactionRecord");
+        int idemp = 0;
+        long idacc = 0L;
+        float amount = 0.0F;
+        Connection conn = null;
+        ConnectionProvider instance = new ConnectionProvider();
+        instance.createSubtractCashTransactionRecord(idemp, idacc, amount, conn);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of createNewAccount method, of class ConnectionProvider.
+     */
+    @Test
+    public void testCreateNewAccount() {
+        System.out.println("createNewAccount");
+        long newAccId = 0L;
+        int idc = 0;
+        ConnectionProvider instance = new ConnectionProvider();
+        instance.createNewAccount(newAccId, idc);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of doesAccountExist method, of class ConnectionProvider.
+     */
+    @Test
+    public void testDoesAccountExist() {
+        System.out.println("doesAccountExist");
+        long idacc = 0L;
+        ConnectionProvider instance = new ConnectionProvider();
+        boolean expResult = false;
+        boolean result = instance.doesAccountExist(idacc);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of updateClient method, of class ConnectionProvider.
+     */
+    @Test
+    public void testUpdateClient() {
+        System.out.println("updateClient");
+        Client client = null;
+        ConnectionProvider instance = new ConnectionProvider();
+        instance.updateClient(client);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of updateClientRecord method, of class ConnectionProvider.
+     */
+    @Test
+    public void testUpdateClientRecord() {
+        System.out.println("updateClientRecord");
+        Client client = null;
+        Connection conn = null;
+        ConnectionProvider instance = new ConnectionProvider();
+        instance.updateClientRecord(client, conn);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of updateClientDetails method, of class ConnectionProvider.
+     */
+    @Test
+    public void testUpdateClientDetails() {
+        System.out.println("updateClientDetails");
+        Client client = null;
+        Connection conn = null;
+        ConnectionProvider instance = new ConnectionProvider();
+        instance.updateClientDetails(client, conn);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of updateClientLogin method, of class ConnectionProvider.
+     */
+    @Test
+    public void testUpdateClientLogin() {
+        System.out.println("updateClientLogin");
+        Client client = null;
+        Connection conn = null;
+        ConnectionProvider instance = new ConnectionProvider();
+        instance.updateClientLogin(client, conn);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of createNewCard method, of class ConnectionProvider.
+     */
+    @Test
+    public void testCreateNewCard() {
+        System.out.println("createNewCard");
+        Card card = null;
+        ConnectionProvider instance = new ConnectionProvider();
+        instance.createNewCard(card);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getListOfCards method, of class ConnectionProvider.
+     */
+    @Test
+    public void testGetListOfCards() {
+        System.out.println("getListOfCards");
+        int idc = 0;
+        ConnectionProvider instance = new ConnectionProvider();
+        List<Card> expResult = null;
+        List<Card> result = instance.getListOfCards(idc);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of editCard method, of class ConnectionProvider.
+     */
+    @Test
+    public void testEditCard() {
+        System.out.println("editCard");
+        Card card = null;
+        ConnectionProvider instance = new ConnectionProvider();
+        instance.editCard(card);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of performBankTransaction method, of class ConnectionProvider.
+     */
+    @Test
+    public void testPerformBankTransaction() {
+        System.out.println("performBankTransaction");
+        Accounts thisAccount = null;
+        long offsetAccount = 0L;
+        int bankCode = 0;
+        float amount = 0.0F;
+        Connection conn = null;
+        ConnectionProvider instance = new ConnectionProvider();
+        instance.performBankTransaction(thisAccount, offsetAccount, bankCode, amount, conn);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of createBankTransactionRecord method, of class ConnectionProvider.
+     */
+    @Test
+    public void testCreateBankTransactionRecord() {
+        System.out.println("createBankTransactionRecord");
+        float amount = 2.00;
+        String description = "asdf";
+        long thisAccount = 1234567891;
+        long offsetAccount = 1925487845;
+        int bankCode = 22222;
+        int idemp = 1;
+        ConnectionProvider instance = new ConnectionProvider();
+        Connection conn = instance.getConnection();//open connection here
+        instance.createBankTransactionRecord(amount, description, thisAccount, offsetAccount, bankCode, idemp, conn);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of updateBankTransaction method, of class ConnectionProvider.
+     */
+    @Test
+    public void testUpdateBankTransaction() {
+        System.out.println("updateBankTransaction");
+        float amount = 0.0F;
+        Accounts thisAccount = null;
+        long offsetAccount = 0L;
+        int bankCode = 0;
+        String description = "";
+        int idemp = 0;
+        ConnectionProvider instance = new ConnectionProvider();//look at connection too, its private
+        instance.updateBankTransaction(amount, thisAccount, offsetAccount, bankCode, description, idemp);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getBankTransactions method, of class ConnectionProvider.
+     */
+    @Test
+    public void testGetBankTransactions() {
+        System.out.println("getBankTransactions");
+        ConnectionProvider instance = new ConnectionProvider();
+        List<BankTransaction> expResult = null;
+        List<BankTransaction> result = instance.getBankTransactions();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        //fail("The test case is a prototype.");
+    }
+ 
     
 }

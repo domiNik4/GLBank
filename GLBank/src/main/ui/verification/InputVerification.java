@@ -156,6 +156,18 @@ public class InputVerification {
         }
     }
     
+    public boolean isAmountValid(float amount){
+        
+        if(amount>1){
+            return true;//to be adjusted
+        }
+        return false;
+    }
+    
+    public boolean isAccNumberValid(){
+        return false;
+    }
+    
     //check number input fields -to be added
     
    
