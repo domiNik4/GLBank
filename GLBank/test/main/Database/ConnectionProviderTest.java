@@ -496,15 +496,15 @@ public class ConnectionProviderTest {
     @Test
     public void testCreateBankTransactionRecord() {
         System.out.println("createBankTransactionRecord");
-        float amount = 2.00;
+        //float amount = 2.00;
         String description = "asdf";
         long thisAccount = 1234567891;
         long offsetAccount = 1925487845;
         int bankCode = 22222;
         int idemp = 1;
         ConnectionProvider instance = new ConnectionProvider();
-        Connection conn = instance.getConnection();//open connection here
-        instance.createBankTransactionRecord(amount, description, thisAccount, offsetAccount, bankCode, idemp, conn);
+       // Connection conn = instance.getConnection();//open connection here
+        //instance.createBankTransactionRecord(amount, description, thisAccount, offsetAccount, bankCode, idemp, conn);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

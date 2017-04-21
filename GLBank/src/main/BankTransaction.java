@@ -11,14 +11,15 @@ package main;
  */
 public class BankTransaction {
     private int idbt;
-    private int amount;
+    private float amount;
     private String transdatetime;
     private long destacc;
     private int destbank;
     private int idemp;
     
+   
     
-    public BankTransaction (int idbt, int amount,String transdatetime, long destacc, int destbank, int idemp){
+    public BankTransaction (int idbt, float amount,String transdatetime, long destacc, int destbank, int idemp){
         this.idbt=idbt;
         this.amount=amount;
         this.transdatetime=transdatetime;
@@ -31,7 +32,7 @@ public class BankTransaction {
         this.idbt = idbt;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(float amount) {
         this.amount = amount;
     }
 
@@ -55,7 +56,7 @@ public class BankTransaction {
         return idbt;
     }
 
-    public int getAmount() {
+    public float getAmount() {
         return amount;
     }
 
