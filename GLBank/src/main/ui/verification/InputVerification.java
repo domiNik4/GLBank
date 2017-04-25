@@ -157,15 +157,38 @@ public class InputVerification {
     }
     
     public boolean isAmountValid(float amount){
-        
         if(amount>1){
             return true;//to be adjusted
         }
         return false;
     }
     
-    public boolean isAccNumberValid(){
+    public boolean isDestAccNumberValid(long destAccNumber, javax.swing.JLabel lblError ){
+        String accNumber = String.valueOf(destAccNumber);
+        if(accNumber.length()>8&&accNumber.length()<=10){
+            lblError.setVisible(false);
+            return true;
+        }            
+        lblError.setVisible(true);
         return false;
+    }
+    
+    public boolean isBankCodeValid(int bankCode, javax.swing.JLabel lblError){
+        if(bankCode>999&&bankCode<=9999){
+            lblError.setVisible(false);
+            return true;            
+        }
+        lblError.setVisible(true);
+        return false;
+    }
+    
+    public boolean isDescriptionValid(String description,javax.swing.JLabel lblError){
+        if(description!=null &&description.length()>3&&description.length()<140){
+            lblError.setVisible(false);
+            return true;
+        }
+        lblError.setVisible(true);
+        return false;        
     }
     
     //check number input fields -to be added
