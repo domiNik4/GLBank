@@ -6,7 +6,12 @@
 package main.ui.panels;
 
 import java.util.List;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import main.Accounts;
+import main.BankTransaction;
+import main.CashTransaction;
+import main.Client;
 import main.Database.ConnectionProvider;
 
 /**
@@ -16,27 +21,97 @@ import main.Database.ConnectionProvider;
 public class JPanelTransHistory extends javax.swing.JPanel {
     private int idc;
     private List<Accounts> accountsList ;
+    private List<BankTransaction> bankTransactionsList;
+    private List<CashTransaction> cashTransactionList;
     private ConnectionProvider cp;
     
     /**
      * Creates new form JPanelTransHistory
      */
-    public JPanelTransHistory(int idc) {
+    public JPanelTransHistory(Client chosenClient) {
         initComponents();
         initComponents();
-        this.idc=idc;
+        this.idc=chosenClient.getIdc();
         cp=new ConnectionProvider();
+        this.accountsList=cp.getAccounts(idc);
         showListOfAccounts();
+        loadCashTransactions();
     }
     
     private void showListOfAccounts(){  
         accountsList =cp.getAccounts(idc);
         if(accountsList!=null && accountsList.size()>0){
             for( Accounts account : accountsList){
-                String item = account.getIdAcc()+"/2701";
-                comboAccounts.addItem(item);
+                String item = account.getIdAcc()+"";
+                comboAccountsH.addItem(item);
+                System.out.println(item);
                 }
         }
+    }  
+    
+   
+    private void loadBankTransactions(){
+        long idacc=Long.valueOf(comboAccountsH.getSelectedItem().toString());
+        bankTransactionsList =cp.getBankTransactions(idacc);
+        
+        transactionTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID","Account ID" ,"Amount","Datetime","Employee ID"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        
+        DefaultTableModel model = (DefaultTableModel) transactionTable.getModel();
+        int rowCount=transactionTable.getRowCount();
+        for (int i = rowCount - 1; i >= 0; i--) {
+            model.removeRow(i);
+        }
+        
+        for(BankTransaction bt : bankTransactionsList){
+            model.addRow(new Object[]{bt.getIdbt(),bt.getDestacc(),bt.getAmount(),bt.getTransdatetime(),bt.getIdemp()});
+        } 
+        
+    }
+    private void loadCashTransactions(){
+        long idacc=Long.valueOf(comboAccountsH.getSelectedItem().toString());
+        cashTransactionList =cp.getCashTransactions(idacc);
+        
+        transactionTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID","Amount","Datetime","Employee ID"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        
+        DefaultTableModel model = (DefaultTableModel) transactionTable.getModel();
+        int rowCount=transactionTable.getRowCount();
+        for (int i = rowCount - 1; i >= 0; i--) {
+            model.removeRow(i);
+        }
+        
+        for(CashTransaction ct : cashTransactionList){
+            model.addRow(new Object[]{ct.getId(),ct.getAmount(),ct.getDate(),ct.getIdemp()});
+        } 
     }
 
     /**
@@ -51,10 +126,10 @@ public class JPanelTransHistory extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        comboAccounts = new javax.swing.JComboBox<>();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        transactionCombo = new javax.swing.JComboBox<>();
+        comboAccountsH = new javax.swing.JComboBox<>();
+        historyScrollPane = new javax.swing.JScrollPane();
+        transactionTable = new javax.swing.JTable();
 
         jLabel1.setText("Transaction History");
 
@@ -62,20 +137,20 @@ public class JPanelTransHistory extends javax.swing.JPanel {
 
         jLabel4.setText("Transaction type:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cash transactions", "Bank transactions", "ATM withdrawals" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        transactionCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cash transactions", "Bank transactions", " " }));
+        transactionCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                transactionComboActionPerformed(evt);
             }
         });
 
-        comboAccounts.addActionListener(new java.awt.event.ActionListener() {
+        comboAccountsH.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboAccountsActionPerformed(evt);
+                comboAccountsHActionPerformed(evt);
             }
         });
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        transactionTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -83,10 +158,10 @@ public class JPanelTransHistory extends javax.swing.JPanel {
                 {null, null, null, null}
             },
             new String [] {
-                "Datetime", "Amount", "Account ID", "Employee"
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        historyScrollPane.setViewportView(transactionTable);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -100,16 +175,16 @@ public class JPanelTransHistory extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(61, 61, 61)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 804, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(historyScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 739, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(comboAccounts, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(comboAccountsH, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(31, 31, 31)
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(62, Short.MAX_VALUE))
+                                .addComponent(transactionCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(127, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -118,32 +193,40 @@ public class JPanelTransHistory extends javax.swing.JPanel {
                 .addComponent(jLabel1)
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(transactionCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel3)
-                    .addComponent(comboAccounts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboAccountsH, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addComponent(historyScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(38, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void transactionComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transactionComboActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+        int index=transactionCombo.getSelectedIndex();
+        if(index==0){
+            loadCashTransactions();
+        }
+        if(index==1){
+            loadBankTransactions();
+            
+        }
+    }//GEN-LAST:event_transactionComboActionPerformed
 
-    private void comboAccountsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboAccountsActionPerformed
+    private void comboAccountsHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboAccountsHActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_comboAccountsActionPerformed
+    }//GEN-LAST:event_comboAccountsHActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> comboAccounts;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> comboAccountsH;
+    private javax.swing.JScrollPane historyScrollPane;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JComboBox<String> transactionCombo;
+    private javax.swing.JTable transactionTable;
     // End of variables declaration//GEN-END:variables
 }

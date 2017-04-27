@@ -232,7 +232,7 @@ public class MainForm extends javax.swing.JFrame {
             JPanelCards jpanelCards = new JPanelCards(chosenClient.getIdc());
             jTabbedPane1.add("Cards",jpanelCards);
             
-            JPanelTransHistory jpanelHistory = new JPanelTransHistory(chosenClient.getIdc());
+            JPanelTransHistory jpanelHistory = new JPanelTransHistory(chosenClient);
             jTabbedPane1.add("History",jpanelHistory);
         }
     }//GEN-LAST:event_comboListOfAllClientsActionPerformed

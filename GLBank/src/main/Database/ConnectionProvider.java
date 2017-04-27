@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import main.Accounts;
 import main.BankTransaction;
 import main.Card;
+import main.CashTransaction;
 import main.Client;
 import main.Employee;
 
@@ -721,23 +722,54 @@ private boolean isPasswordUnique(){
        
    }
    
-   public List<BankTransaction> getBankTransactions(){//get trans from db, put the stuff in a table
+   public List<BankTransaction> getBankTransactions(long idacc){//get trans from db, put the stuff in a table
        ArrayList transactions=new ArrayList();
-       String query="SELECT * FROM banktransactions";
+       String query="SELECT * FROM banktransactions where srcacc like ?";
        Connection conn=getConnection();
        
        try{
            PreparedStatement ps=conn.prepareStatement(query);
+           ps.setLong(1,idacc);
            ResultSet rs=ps.executeQuery();
-       
-       }catch(SQLException ex){
-           System.out.println("Error: "+ex.toString());
            
-       }
-       
-       
-       
+           while(rs.next()){
+               BankTransaction bt = new BankTransaction( 
+                   rs.getInt("idbt"), rs.getFloat("amount"),
+                   ""+rs.getDate("transdatetime"), 
+                   rs.getLong("destacc"), rs.getInt("destbank"), 
+                   rs.getInt("idemp"));
+               transactions.add(bt);
+           }
+                  
+       }catch(SQLException ex){
+           System.out.println("Error: "+ex.toString());   
+       }       
        return transactions;
+   }
+   
+   public List<CashTransaction> getCashTransactions(long idacc){
+       ArrayList transactions=new ArrayList();
+       String query="SELECT * FROM cashtransactions where idacc like ?";
+       Connection conn=getConnection();
+       
+       try{
+           PreparedStatement ps=conn.prepareStatement(query);
+           ps.setLong(1,idacc);
+           ResultSet rs=ps.executeQuery();
+           
+           while(rs.next()){
+               CashTransaction ct = new CashTransaction( 
+                   rs.getInt("idct"), rs.getInt("idemp"),
+                   rs.getFloat("amount"), 
+                   rs.getDate("cashdatetime"));
+               transactions.add(ct);
+           }
+                  
+       }catch(SQLException ex){
+           System.out.println("Error: "+ex.toString());   
+       }       
+       return transactions;
+       
    }
    
    

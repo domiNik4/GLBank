@@ -109,6 +109,7 @@ CREATE TABLE banktransactions (idbt int auto_increment,
 							    foreign key(idemp) references Employees(idemp)
 							    );
 
+
 CREATE TABLE cashtransactions (idct int auto_increment,
 							    idemp int not null,
 							    amount FLOAT(10,2) not null,
