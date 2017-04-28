@@ -35,7 +35,7 @@ public class IBANGenerator {
         
         prefix=adjustPrefix();
         accountNumber=adjustAccNumber();
-        if(isPrefixValid()&&isAccNumberValid()){
+        if(isPrefixValid()&&isAccNumberValid()&&isBankCodeValid()){
            try{
                String temp=bankCode+prefix+accountNumber+s+k+"00";
                BigInteger tempValue = new BigInteger(temp);
@@ -50,6 +50,7 @@ public class IBANGenerator {
                
            }catch(Exception e){
                System.out.println("Error: "+e.toString());
+               return null;
            }
         }
         return iban;
@@ -61,7 +62,7 @@ public class IBANGenerator {
             if(!Character.isDigit(prefix.charAt(i)))
                 containsNumbers=false;
         }
-        if(prefix!=null&&containsNumbers){
+        if(prefix!=null&&containsNumbers&&prefix.length()<=6){
             return true;
         }
         return false;
@@ -73,7 +74,19 @@ public class IBANGenerator {
             if(!Character.isDigit(accountNumber.charAt(i)))
                 containsNumbers=false;
         }
-        if(accountNumber!=null&&containsNumbers){
+        if(accountNumber!=null&&containsNumbers&&accountNumber.length()<=10){
+            return true;
+        }
+        return false;
+    }
+    
+    private boolean isBankCodeValid(){
+        boolean containsNumbers=true;
+        for(int i=0;i<bankCode.length();i++){
+            if(!Character.isDigit(bankCode.charAt(i)))
+                containsNumbers=false;
+        }
+        if(accountNumber!=null&&containsNumbers&&bankCode.length()==4){
             return true;
         }
         return false;

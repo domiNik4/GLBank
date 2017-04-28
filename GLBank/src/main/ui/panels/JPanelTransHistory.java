@@ -137,7 +137,7 @@ public class JPanelTransHistory extends javax.swing.JPanel {
 
         jLabel4.setText("Transaction type:");
 
-        transactionCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cash transactions", "Bank transactions", " " }));
+        transactionCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Cash transactions", "Bank transactions" }));
         transactionCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 transactionComboActionPerformed(evt);

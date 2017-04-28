@@ -15,6 +15,7 @@ import main.Client;
 import main.Database.ConnectionProvider;
 import main.Employee;
 import main.ui.panels.JPanelCards;
+import main.ui.panels.JPanelIban;
 import main.ui.panels.JPanelTransHistory;
 import main.ui.panels.JPanelTransactions;
 
@@ -234,6 +235,10 @@ public class MainForm extends javax.swing.JFrame {
             
             JPanelTransHistory jpanelHistory = new JPanelTransHistory(chosenClient);
             jTabbedPane1.add("History",jpanelHistory);
+            
+            JPanelIban jpanelIban = new JPanelIban();
+            jTabbedPane1.add("IBAN generator",jpanelIban);
+                       
         }
     }//GEN-LAST:event_comboListOfAllClientsActionPerformed
 
