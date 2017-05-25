@@ -109,7 +109,6 @@ CREATE TABLE banktransactions (idbt int auto_increment,
 							    foreign key(idemp) references Employees(idemp)
 							    );
 
-
 CREATE TABLE cashtransactions (idct int auto_increment,
 							    idemp int not null,
 							    amount FLOAT(10,2) not null,
@@ -119,7 +118,7 @@ CREATE TABLE cashtransactions (idct int auto_increment,
 							    foreign key(idemp) references Employees(idemp)
 							    );
 
-CREATE TABLE atmwithdrawals (idatmw integer not null auto_increment,
+CREATE TABLE atmwithdrawals ( idatmw integer not null auto_increment,
 							  amount FLOAT(10,2)  not null,
 							  datetimew datetime not null,
 							  idatm integer default 0,
@@ -137,8 +136,10 @@ CREATE TABLE Cards (idcard int auto_increment,
 					idacc BIGINT not null,
 					pin int not null default 1234,
 					blocked char(1) default 'N',
+					wrongPinAttempts int not null default 0,
 					primary key(idcard),
 					foreign key (idacc) references Accounts(idacc)
 					 on delete cascade
 					 on update restrict
 					);
+
