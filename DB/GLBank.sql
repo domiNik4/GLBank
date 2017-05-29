@@ -120,10 +120,9 @@ CREATE TABLE cashtransactions (idct int auto_increment,
 
 CREATE TABLE atmwithdrawals ( idatmw integer not null auto_increment,
 							  amount FLOAT(10,2)  not null,
-							  datetimew datetime not null,
 							  idatm integer default 0,
 							  atmdatetime datetime default current_timestamp,
-							  idcard integer not null,
+							  cardnumber BIGINT not null,
 							  primary key(idatmw),
 							  foreign key(idcard) references Cards(idcard)
 							  on delete cascade
